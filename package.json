@@ -1,0 +1,45 @@
+{
+  "name": "mail-lite",
+  "version": "1.0.0",
+  "description": "Mail Lite by ngthhung",
+  "main": "out/main/index.js",
+  "author": "ngthhung",
+  "license": "MIT",
+  "scripts": {
+    "dev": "electron-vite dev",
+    "build": "electron-vite build",
+    "start": "electron-vite preview",
+    "typecheck": "tsc --noEmit -p tsconfig.node.json && tsc --noEmit -p tsconfig.web.json",
+    "test": "node --experimental-strip-types --no-warnings test/core.test.ts",
+    "dist": "electron-vite build && electron-builder --config electron-builder.config.cjs",
+    "dist:win": "electron-vite build && electron-builder --config electron-builder.config.cjs --win",
+    "dist:mac": "electron-vite build && electron-builder --config electron-builder.config.cjs --mac",
+    "dist:linux": "electron-vite build && electron-builder --config electron-builder.config.cjs --linux"
+  },
+  "dependencies": {
+    "exceljs": "^4.4.0",
+    "imapflow": "^2.3.0",
+    "mailparser": "^3.9.37",
+    "nodemailer": "^10.0.16"
+  },
+  "devDependencies": {
+    "@types/mailparser": "^3.9.0",
+    "@types/node": "^26.6.4",
+    "@types/nodemailer": "^8.0.2",
+    "@types/react": "^19.3.0",
+    "@types/react-dom": "^19.3.0",
+    "@vitejs/plugin-react": "^5.2.0",
+    "dompurify": "^3.4.16",
+    "electron": "^44.7.0",
+    "electron-builder": "^26.15.3",
+    "electron-vite": "^5.0.0",
+    "hoodiecrow-imap": "^3.3.1",
+    "lucide-react": "^1.53.0",
+    "playwright-core": "^1.64.0",
+    "react": "^19.3.0",
+    "react-dom": "^19.3.0",
+    "smtp-server": "^3.19.18",
+    "typescript": "^7.0.2",
+    "vite": "^7.3.7"
+  }
+}

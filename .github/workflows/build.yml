@@ -1,3 +1,6 @@
+# Build bản cài Mail Lite cho Windows, macOS và Linux trên máy chủ GitHub.
+#  - Bấm "Run workflow" ở tab Actions: build xong tải bản cài ở mục Artifacts của lần chạy.
+#  - Đẩy tag dạng v1.0.1 (hoặc tạo Release mới với tag đó): build xong tự đính bản cài vào trang Releases.
 name: Build bản cài
 
 on:
@@ -35,12 +38,16 @@ jobs:
       - name: Cài thư viện
         run: npm ci
 
+      - name: Kiểm tra mã
+        run: npm run typecheck
+
       - name: Build giao diện + lõi
         run: npx electron-vite build
 
       - name: Đóng gói
         run: npx electron-builder --config electron-builder.config.cjs ${{ matrix.args }}
         env:
+          # chưa có chứng chỉ ký số Apple/Windows → bỏ qua bước ký
           CSC_IDENTITY_AUTO_DISCOVERY: 'false'
 
       - name: Lưu bản cài
