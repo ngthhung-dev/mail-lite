@@ -30,7 +30,7 @@ Bản đóng gói chưa ký số, nên Windows SmartScreen / macOS Gatekeeper s�
 Tệp `.github/workflows/build.yml` build cả ba bản cài (Windows `.exe`/`.zip`, macOS `.dmg`/`.zip` cho chip Intel và Apple, Linux `.deb`/`.AppImage`) trên máy chủ GitHub:
 
 - Tab **Actions → Build bản cài → Run workflow**: build xong tải ở mục **Artifacts** của lần chạy.
-- Tạo **Release** với tag dạng `v1.0.1`: bản cài tự được đính vào trang Release.
+- Đẩy tag dạng `v1.0.1` (`git tag v1.0.1 && git push origin v1.0.1`): build xong tự tạo Release kèm bản cài, nội dung lấy từ `.github/release-notes.md`.
 
 ### Thử không cần tài khoản thật
 

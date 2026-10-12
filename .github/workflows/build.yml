@@ -62,13 +62,24 @@ jobs:
             release/*.deb
             release/*.AppImage
 
-      - name: Đính vào Release
-        if: startsWith(github.ref, 'refs/tags/v')
+  # Tạo một Release duy nhất sau khi cả ba bản build xong (tránh ba máy cùng tạo Release một lúc)
+  release:
+    if: startsWith(github.ref, 'refs/tags/v')
+    needs: build
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/download-artifact@v4
+        with:
+          path: dist
+          merge-multiple: true
+
+      - name: Phát hành
         uses: softprops/action-gh-release@v2
         with:
+          name: Mail Lite ${{ github.ref_name }}
+          body_path: .github/release-notes.md
           files: |
-            release/*.exe
-            release/*.zip
-            release/*.dmg
-            release/*.deb
-            release/*.AppImage
+            dist/*
+            docs/Mail-Lite-Huong-dan-su-dung.pdf
