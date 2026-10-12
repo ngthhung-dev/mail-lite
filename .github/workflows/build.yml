@@ -1,0 +1,74 @@
+# Build bản cài Mail Lite cho Windows, macOS và Linux trên máy chủ GitHub.
+#  - Bấm "Run workflow" ở tab Actions: build xong tải bản cài ở mục Artifacts của lần chạy.
+#  - Đẩy tag dạng v1.0.1 (hoặc tạo Release mới với tag đó): build xong tự đính bản cài vào trang Releases.
+name: Build bản cài
+
+on:
+  workflow_dispatch:
+  push:
+    tags: ['v*']
+
+permissions:
+  contents: write
+
+jobs:
+  build:
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - os: windows-latest
+            name: windows
+            args: --win nsis zip --x64
+          - os: macos-latest
+            name: macos
+            args: --mac dmg zip --x64 --arm64
+          - os: ubuntu-latest
+            name: linux
+            args: --linux deb AppImage --x64
+    runs-on: ${{ matrix.os }}
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+
+      - name: Cài thư viện
+        run: npm ci
+
+      - name: Kiểm tra mã
+        run: npm run typecheck
+
+      - name: Build giao diện + lõi
+        run: npx electron-vite build
+
+      - name: Đóng gói
+        run: npx electron-builder --config electron-builder.config.cjs ${{ matrix.args }}
+        env:
+          # chưa có chứng chỉ ký số Apple/Windows → bỏ qua bước ký
+          CSC_IDENTITY_AUTO_DISCOVERY: 'false'
+
+      - name: Lưu bản cài
+        uses: actions/upload-artifact@v4
+        with:
+          name: Mail-Lite-${{ matrix.name }}
+          if-no-files-found: error
+          path: |
+            release/*.exe
+            release/*.zip
+            release/*.dmg
+            release/*.deb
+            release/*.AppImage
+
+      - name: Đính vào Release
+        if: startsWith(github.ref, 'refs/tags/v')
+        uses: softprops/action-gh-release@v2
+        with:
+          files: |
+            release/*.exe
+            release/*.zip
+            release/*.dmg
+            release/*.deb
+            release/*.AppImage

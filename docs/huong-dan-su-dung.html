@@ -1,0 +1,668 @@
+<!doctype html>
+<html lang="vi">
+<head>
+<meta charset="utf-8">
+<title>Mail Lite — Hướng dẫn sử dụng</title>
+<style>
+  @page { size: A4; margin: 16mm 15mm 18mm; }
+  * { box-sizing: border-box; }
+  body { font-family: "Segoe UI", "Inter", "Noto Sans", "DejaVu Sans", Arial, sans-serif; font-size: 10.5pt; line-height: 1.5; color: #1f1f1f; margin: 0; }
+  h1 { font-size: 20pt; color: #0f4c81; border-bottom: 2.5px solid #0f6cbd; padding-bottom: 5px; margin: 30px 0 12px; page-break-after: avoid; }
+  h1.pb { page-break-before: always; margin-top: 0; }
+  h2 { font-size: 13.5pt; color: #0f4c81; margin: 20px 0 6px; page-break-after: avoid; }
+  h3 { font-size: 11.5pt; margin: 14px 0 4px; page-break-after: avoid; }
+  p { margin: 5px 0; }
+  ul, ol { margin: 4px 0 6px; padding-left: 22px; }
+  li { margin: 2.5px 0; }
+  b.ui, .ui { font-weight: 600; color: #0f4c81; }
+  kbd { font-family: inherit; font-size: 9pt; background: #f1f1f1; border: 1px solid #bdbdbd; border-bottom-width: 2px; border-radius: 3px; padding: 0 5px; white-space: nowrap; }
+  code { font-family: Consolas, "DejaVu Sans Mono", monospace; font-size: 9.5pt; background: #f3f3f3; padding: 1px 4px; border-radius: 3px; }
+  figure { margin: 10px 0 14px; text-align: center; page-break-inside: avoid; }
+  figure img { max-width: 100%; border: 1px solid #c8c8c8; border-radius: 4px; box-shadow: 0 1px 5px rgba(0,0,0,.12); }
+  figure img { max-height: 96mm; } figure.xs img { max-height: 80mm; }
+  h2 + figure, h3 + figure, p + figure { page-break-before: avoid; }
+  figure.s img { max-width: 62%; } figure.xs img { max-width: 46%; } figure.m img { max-width: 80%; }
+  figure.pair { display: flex; gap: 10px; justify-content: center; align-items: flex-start; flex-wrap: wrap; }
+  figure.pair img { max-width: 48%; } figure.pair figcaption { flex-basis: 100%; }
+  figcaption { font-size: 9pt; color: #5a5a5a; margin-top: 4px; font-style: italic; }
+  table { border-collapse: collapse; width: 100%; margin: 8px 0 12px; font-size: 10pt; page-break-inside: avoid; }
+  th, td { border: 1px solid #cfcfcf; padding: 5px 8px; text-align: left; vertical-align: top; }
+  th { background: #eaf2fb; color: #0f4c81; }
+  .note, .warn, .tip { border-left: 4px solid #0f6cbd; background: #eef5fc; padding: 7px 11px; margin: 9px 0; border-radius: 0 4px 4px 0; page-break-inside: avoid; }
+  .warn { border-color: #c50f1f; background: #fdf0f1; } .tip { border-color: #107c10; background: #eff8ef; }
+  .num { display: inline-block; width: 19px; height: 19px; line-height: 19px; border-radius: 50%; background: #d83b01; color: #fff; font-weight: 700; font-size: 9pt; text-align: center; }
+  .cover { height: 250mm; display: flex; flex-direction: column; justify-content: center; align-items: center; text-align: center; }
+  .cover img { width: 110px; margin-bottom: 22px; }
+  .cover .t { font-size: 40pt; font-weight: 700; color: #0f4c81; } .cover .s { font-size: 17pt; margin-top: 6px; }
+  .cover .v { margin-top: 40px; color: #5a5a5a; font-size: 11.5pt; }
+  .toc { page-break-before: always; } .toc h1 { margin-top: 0; }
+  .toc ol { columns: 2; column-gap: 30px; font-size: 11pt; } .toc li { margin: 6px 0; break-inside: avoid; }
+  .toc a { color: inherit; text-decoration: none; }
+  .keys td:first-child { white-space: nowrap; width: 34%; }
+</style>
+</head>
+<body>
+
+<div class="cover">
+  <img src="../resources/icon-512.png" alt="">
+  <div class="t">Mail Lite</div>
+  <div class="s">Hướng dẫn sử dụng</div>
+  <div class="v">Mail Lite by ngthhung · Phiên bản 1.0.0<br>Dùng cho Windows, macOS và Linux</div>
+</div>
+
+<div class="toc">
+<h1>Mục lục</h1>
+<ol>
+  <li><a href="#c1">Giới thiệu</a></li>
+  <li><a href="#c2">Cài đặt ứng dụng</a></li>
+  <li><a href="#c3">Thêm tài khoản mail</a></li>
+  <li><a href="#c4">Làm quen với giao diện</a></li>
+  <li><a href="#c5">Đọc thư</a></li>
+  <li><a href="#c6">Danh sách thư và cuộc hội thoại</a></li>
+  <li><a href="#c7">Soạn và gửi thư</a></li>
+  <li><a href="#c8">Tìm kiếm và lọc thư</a></li>
+  <li><a href="#c9">Sắp xếp, phân loại và dọn dẹp thư</a></li>
+  <li><a href="#c10">Quản lý thư mục</a></li>
+  <li><a href="#c11">Quy tắc tự động xử lý thư đến</a></li>
+  <li><a href="#c12">Trộn thư — gửi hàng loạt từ Excel</a></li>
+  <li><a href="#c13">Lịch</a></li>
+  <li><a href="#c14">Danh bạ</a></li>
+  <li><a href="#c15">Tuỳ chỉnh cách hiển thị</a></li>
+  <li><a href="#c16">Cài đặt</a></li>
+  <li><a href="#c17">Thông báo và làm việc khi mất mạng</a></li>
+  <li><a href="#c18">Phím tắt</a></li>
+  <li><a href="#c19">Giới hạn và câu hỏi thường gặp</a></li>
+</ol>
+<div class="note">Ảnh minh hoạ trong tài liệu được chụp từ chính ứng dụng Mail Lite 1.0.0 với một hộp thư mẫu. Tên người, địa chỉ email và nội dung thư trong ảnh đều là dữ liệu giả dùng để minh hoạ. Ảnh chụp ở giao diện sáng trên Linux; trên Windows và macOS bố cục giống hệt, chỉ khác phông chữ và khung cửa sổ.</div>
+</div>
+
+<!-- ============================================================ -->
+<h1 class="pb" id="c1">1. Giới thiệu</h1>
+<p>Mail Lite là ứng dụng đọc và gửi thư trên máy tính, giao diện theo kiểu Outlook classic. Bạn thêm một hoặc nhiều tài khoản (Gmail, Microsoft 365, mail công ty…), ứng dụng tải thư về máy để đọc cả khi không có mạng, và bạn quản lý, trả lời thư ngay trong một cửa sổ.</p>
+<h2>Những việc làm được</h2>
+<ul>
+  <li><b>Nhiều tài khoản trong một cửa sổ</b>, có hộp thư gộp “Tất cả hộp thư đến”.</li>
+  <li><b>Đồng bộ thư về máy</b> để đọc, tìm kiếm và thao tác khi mất mạng.</li>
+  <li><b>Soạn, trả lời, chuyển tiếp</b> với đầy đủ định dạng: phông, cỡ, màu, bảng, ảnh, liên kết, tệp đính kèm, chữ ký.</li>
+  <li><b>Hoàn tác gửi</b>: lấy lại thư gửi nhầm trong vài giây đầu.</li>
+  <li><b>Gom thư theo cuộc hội thoại</b>, ghim hội thoại, gắn cờ, phân loại màu.</li>
+  <li><b>Tìm kiếm</b> nhanh và nâng cao, gõ không dấu vẫn ra tiếng Việt có dấu.</li>
+  <li><b>Quy tắc</b> tự chuyển thư mục, chuyển tiếp, đánh dấu, phân loại, xoá thư đến.</li>
+  <li><b>Trộn thư</b>: gửi mỗi người một thư riêng từ danh sách Excel/CSV.</li>
+  <li><b>Lịch</b> có nhắc việc và <b>Danh bạ</b> lưu trên máy.</li>
+</ul>
+<h2>Loại tài khoản hỗ trợ</h2>
+<p>Mail Lite kết nối bằng giao thức <b>IMAP</b> (nhận thư) và <b>SMTP</b> (gửi thư). Hầu hết dịch vụ mail đều hỗ trợ: Gmail / Google Workspace, Microsoft 365 / Outlook.com, Yahoo, iCloud, Zoho và mail công ty chạy trên hosting, cPanel, Zimbra… Ứng dụng không hỗ trợ POP3 và giao thức Exchange (MAPI/EWS).</p>
+
+<!-- ============================================================ -->
+<h1 id="c2">2. Cài đặt ứng dụng</h1>
+<h2>Windows</h2>
+<ol>
+  <li>Nhấp đúp tệp <code>Mail-Lite-Setup-1.0.0.exe</code>.</li>
+  <li>Nếu hiện bảng xanh <b>“Windows protected your PC”</b> (do ứng dụng chưa ký số), bấm <span class="ui">More info</span> → <span class="ui">Run anyway</span>.</li>
+  <li>Chọn cài cho riêng bạn hoặc cho mọi người dùng trên máy, chọn thư mục cài, bấm <span class="ui">Install</span> rồi <span class="ui">Finish</span>.</li>
+  <li>Mở <b>Mail Lite</b> từ biểu tượng trên Desktop hoặc Start Menu.</li>
+</ol>
+<p>Gỡ cài đặt: <span class="ui">Settings → Apps → Installed apps → Mail Lite → Uninstall</span>.</p>
+<h2>Linux Mint / Ubuntu</h2>
+<ol>
+  <li>Chép tệp <code>Mail-Lite-1.0.0-amd64.deb</code> vào thư mục Downloads.</li>
+  <li>Mở Terminal (<kbd>Ctrl</kbd>+<kbd>Alt</kbd>+<kbd>T</kbd>) và chạy:<br><code>cd ~/Downloads</code><br><code>sudo apt install ./Mail-Lite-1.0.0-amd64.deb</code></li>
+  <li>Mở ứng dụng từ <span class="ui">Menu → Office → Mail Lite</span>.</li>
+</ol>
+<p>Gỡ cài đặt: <code>sudo apt remove mail-lite</code>.</p>
+<h2>macOS</h2>
+<ol>
+  <li>Chọn đúng tệp: <code>…-mac-arm64.zip</code> cho máy chip Apple (M1 trở lên), <code>…-mac-intel.zip</code> cho máy chip Intel. Xem loại chip tại menu Apple → <span class="ui">About This Mac</span>.</li>
+  <li>Nhấp đúp tệp <code>.zip</code> để giải nén, kéo <b>Mail Lite.app</b> vào thư mục <b>Applications</b>.</li>
+  <li>Mở Terminal và chạy: <code>xattr -cr "/Applications/Mail Lite.app"</code> (gỡ nhãn “tải từ internet”, vì ứng dụng chưa ký bằng tài khoản Apple Developer).</li>
+  <li>Mở Mail Lite từ Launchpad. Nếu vẫn bị chặn, vào <span class="ui">System Settings → Privacy &amp; Security</span> và bấm <span class="ui">Open Anyway</span>.</li>
+</ol>
+<div class="note">Dữ liệu (thư, tài khoản, cài đặt) lưu riêng trên từng máy. Cài lại hoặc cài đè phiên bản mới không làm mất dữ liệu.</div>
+
+<!-- ============================================================ -->
+<h1 class="pb" id="c3">3. Thêm tài khoản mail</h1>
+<p>Lần đầu mở ứng dụng, hộp thoại <span class="ui">Thêm tài khoản mail</span> tự hiện ra. Những lần sau, mở lại bằng nút <span class="ui">+ Thêm tài khoản</span> ở cuối cây thư mục, hoặc thẻ <span class="ui">Gửi / Nhận → Thêm tài khoản</span>.</p>
+<figure class="s"><img src="img/01a-them-tai-khoan-trong.png" alt=""><figcaption>Hình 3.1 — Hộp thoại Thêm tài khoản mail</figcaption></figure>
+<h2>Các ô cần điền</h2>
+<table>
+  <tr><th style="width:32%">Ô</th><th>Ý nghĩa</th></tr>
+  <tr><td>Địa chỉ email</td><td>Địa chỉ đầy đủ, ví dụ <code>ten@congty.vn</code>. Gõ xong, ứng dụng tự nhận diện máy chủ theo tên miền.</td></tr>
+  <tr><td>Mật khẩu</td><td>Mật khẩu hộp thư, hoặc <b>mật khẩu ứng dụng</b> với Gmail, Yahoo, iCloud (xem bên dưới).</td></tr>
+  <tr><td>Tên hiển thị khi gửi</td><td>Tên người nhận sẽ thấy ở mục “Từ”.</td></tr>
+  <tr><td>Tên tài khoản</td><td>Tên gợi nhớ hiện trong ứng dụng, ví dụ “Mail công ty”.</td></tr>
+  <tr><td>Đồng bộ thư về máy</td><td>Tải thư trong 30 ngày, 3 tháng, 1 năm gần nhất hoặc toàn bộ hộp thư. Chọn khoảng ngắn thì đồng bộ nhanh và tốn ít dung lượng hơn.</td></tr>
+  <tr><td>Màu nhận diện</td><td>Chấm màu đứng trước tên tài khoản trong cây thư mục.</td></tr>
+</table>
+<p>Bấm <span class="ui">Kết nối bằng mật khẩu</span>. Ứng dụng kiểm tra đăng nhập, lưu tài khoản rồi bắt đầu tải thư về. Thanh trạng thái phía dưới báo <b>“Tất cả thư mục đã cập nhật”</b> khi xong.</p>
+
+<h2>Mail công ty (hosting, cPanel, Zimbra, Zoho…)</h2>
+<p>Ứng dụng đoán máy chủ theo tên miền. Nếu không kết nối được, bấm <span class="ui">Cấu hình máy chủ thủ công</span> và nhập thông số do bộ phận IT cung cấp.</p>
+<figure class="s"><img src="img/01b-them-tai-khoan.png" alt=""><figcaption>Hình 3.2 — Cấu hình máy chủ thủ công</figcaption></figure>
+<table>
+  <tr><th style="width:32%">Ô</th><th>Giá trị thường gặp</th></tr>
+  <tr><td>Máy chủ nhận (IMAP)</td><td><code>imap.tenmien</code> hoặc <code>mail.tenmien</code> · cổng 993 (SSL/TLS) hoặc 143 (STARTTLS)</td></tr>
+  <tr><td>Máy chủ gửi (SMTP)</td><td><code>smtp.tenmien</code> hoặc <code>mail.tenmien</code> · cổng 465 (SSL/TLS) hoặc 587 (STARTTLS)</td></tr>
+  <tr><td>Tên đăng nhập</td><td>Thường là địa chỉ email đầy đủ.</td></tr>
+</table>
+
+<h2>Gmail / Google Workspace</h2>
+<p>Cách nhanh nhất là dùng <b>mật khẩu ứng dụng</b>:</p>
+<ol>
+  <li>Bật <b>Xác minh 2 bước</b> cho tài khoản Google.</li>
+  <li>Mở <code>myaccount.google.com/apppasswords</code>, tạo một mật khẩu ứng dụng (16 ký tự).</li>
+  <li>Trong Mail Lite, nhập địa chỉ Gmail và dán mật khẩu ứng dụng đó vào ô Mật khẩu.</li>
+</ol>
+<p>Cách khác là đăng nhập bằng tài khoản Google (OAuth), cần khai báo Client ID trước — xem <a href="#c16">mục 16</a>.</p>
+
+<h2>Microsoft 365 / Outlook.com</h2>
+<p>Microsoft không cho đăng nhập bằng mật khẩu thường nên bắt buộc dùng OAuth. Khi gõ địa chỉ thuộc Microsoft, hộp thoại hiện nút <span class="ui">Thiết lập đăng nhập Microsoft…</span>; làm theo hướng dẫn ở <a href="#c16">mục 16</a> để khai báo Client ID một lần, sau đó nút đổi thành <span class="ui">Đăng nhập với Microsoft</span>.</p>
+
+<h2>Yahoo, iCloud</h2>
+<p>Dùng địa chỉ email và <b>mật khẩu ứng dụng</b> tạo trong trang quản lý tài khoản của nhà cung cấp.</p>
+
+<h2>Sửa hoặc xoá tài khoản</h2>
+<p>Mở <span class="ui">Gửi / Nhận → Quản lý tài khoản</span>. Bấm biểu tượng bút chì để sửa (đổi mật khẩu, máy chủ, phạm vi đồng bộ, màu), biểu tượng thùng rác để xoá tài khoản khỏi ứng dụng. Xoá tài khoản chỉ xoá bản sao trên máy, thư trên máy chủ vẫn còn nguyên.</p>
+<figure class="m"><img src="img/13a-cd-tai-khoan.png" alt=""><figcaption>Hình 3.3 — Danh sách tài khoản trong Cài đặt</figcaption></figure>
+
+<!-- ============================================================ -->
+<h1 class="pb" id="c4">4. Làm quen với giao diện</h1>
+<figure><img src="img/02b-tong-quan-chu-thich.png" alt=""><figcaption>Hình 4.1 — Màn hình chính của Mail Lite</figcaption></figure>
+<table>
+  <tr><th style="width:8%">Số</th><th style="width:26%">Vùng</th><th>Công dụng</th></tr>
+  <tr><td><span class="num">1</span></td><td>Các thẻ công cụ</td><td>Bốn thẻ: Trang chủ, Gửi / Nhận, Thư mục, Xem.</td></tr>
+  <tr><td><span class="num">2</span></td><td>Thanh công cụ</td><td>Các nút lệnh của thẻ đang chọn. Nút mờ là nút chưa dùng được (ví dụ chưa chọn thư).</td></tr>
+  <tr><td><span class="num">3</span></td><td>Cây thư mục</td><td>Mục ưa thích ở trên, bên dưới là từng tài khoản với các thư mục của nó. Số bên phải là số thư chưa đọc.</td></tr>
+  <tr><td><span class="num">4</span></td><td>Đầu danh sách</td><td>Tên thư mục đang mở, các thẻ lọc nhanh và ô tìm kiếm.</td></tr>
+  <tr><td><span class="num">5</span></td><td>Danh sách thư</td><td>Thư xếp theo nhóm ngày. Thư chưa đọc in đậm, có vạch xanh bên trái.</td></tr>
+  <tr><td><span class="num">6</span></td><td>Ngăn đọc</td><td>Nội dung thư đang chọn, tệp đính kèm và các nút trả lời nhanh.</td></tr>
+  <tr><td><span class="num">7</span></td><td>Chuyển màn hình</td><td>Thư, Lịch, Danh bạ; biểu tượng bánh răng mở Cài đặt.</td></tr>
+  <tr><td><span class="num">8</span></td><td>Thanh trạng thái</td><td>Phiên bản, số thư đang hiện, số thư đang chọn và trạng thái đồng bộ.</td></tr>
+</table>
+
+<h2>Bốn thẻ công cụ</h2>
+<figure><img src="img/03a-the-trang-chu.png" alt=""><figcaption>Hình 4.2 — Thẻ Trang chủ: soạn thư, trộn thư, xoá, trả lời, đánh dấu, di chuyển</figcaption></figure>
+<figure><img src="img/03b-the-gui-nhan.png" alt=""><figcaption>Hình 4.3 — Thẻ Gửi / Nhận: đồng bộ ngay và quản lý tài khoản</figcaption></figure>
+<figure><img src="img/03c-the-thu-muc.png" alt=""><figcaption>Hình 4.4 — Thẻ Thư mục: tạo, đổi tên, xoá thư mục, dọn dẹp, chạy quy tắc, xuất .mbox</figcaption></figure>
+<figure><img src="img/03d-the-xem.png" alt=""><figcaption>Hình 4.5 — Thẻ Xem: vị trí ngăn đọc, sắp xếp, gom hội thoại, mật độ, giao diện sáng/tối</figcaption></figure>
+
+<h2>Cây thư mục</h2>
+<figure class="xs"><img src="img/04b-cay-thu-muc.png" alt=""><figcaption>Hình 4.6 — Cây thư mục</figcaption></figure>
+<ul>
+  <li><b>Mục ưa thích</b> gộp thư của mọi tài khoản: <span class="ui">Tất cả hộp thư đến</span>, <span class="ui">Thư chưa đọc</span>, <span class="ui">Thư đã gắn cờ</span>.</li>
+  <li>Mỗi tài khoản có Hộp thư đến, Thư nháp, Thư đã gửi, Lưu trữ, Thư rác, Thùng rác và các thư mục bạn tự tạo.</li>
+  <li>Bấm mũi tên nhỏ trước tên tài khoản hoặc thư mục cha để thu gọn / mở rộng.</li>
+  <li><b>Đổi thứ tự tài khoản</b>: giữ chuột trên tên tài khoản và kéo lên / xuống; vạch xanh cho biết vị trí sẽ thả. Thứ tự được ghi nhớ, tài khoản thêm mới luôn nằm cuối.</li>
+  <li><b>Đổi thứ tự thư mục</b>: kéo một thư mục lên / xuống giữa các thư mục <b>cùng cấp</b> của cùng tài khoản (thư mục con chỉ đổi chỗ với nhau trong thư mục cha). Thứ tự chỉ lưu trên máy này, không thay đổi gì trên máy chủ; thư mục mới tạo xếp sau cùng.</li>
+  <li>Nhấp chuột phải vào thư mục để mở menu thao tác (xem <a href="#c10">mục 10</a>).</li>
+</ul>
+
+<h2>Kéo đổi kích thước các ngăn</h2>
+<p>Rê chuột vào đường ranh giữa cây thư mục và danh sách thư, hoặc giữa danh sách thư và ngăn đọc; khi con trỏ đổi thành mũi tên hai chiều thì kéo để đổi độ rộng. Khi ngăn đọc đặt bên dưới, kéo đường ranh ngang để đổi chiều cao. <b>Nhấp đúp</b> vào đường ranh để trở về kích thước mặc định. Kích thước được ghi nhớ cho lần mở sau.</p>
+
+<!-- ============================================================ -->
+<h1 id="c5">5. Đọc thư</h1>
+<p>Bấm vào một thư trong danh sách, nội dung hiện ở ngăn đọc. Thư tự được đánh dấu đã đọc (tắt được trong <span class="ui">Cài đặt → Chung</span>).</p>
+<figure class="m"><img src="img/04a-ngan-doc.png" alt=""><figcaption>Hình 5.1 — Ngăn đọc</figcaption></figure>
+<ul>
+  <li><b>Phần đầu thư</b>: chủ đề, người gửi, người nhận (Tới, Cc) và thời gian.</li>
+  <li><b>Các nút bên phải</b>, từ trái sang: Trả lời, Trả lời tất cả, Chuyển tiếp, Gắn cờ, Xoá.</li>
+  <li><b>Tệp đính kèm</b> nằm ngay dưới phần đầu thư. Bấm vào tên tệp để mở, bấm mũi tên tải xuống để lưu về máy.</li>
+  <li><b>Liên kết</b> trong thư luôn mở bằng trình duyệt mặc định của máy.</li>
+</ul>
+
+<h2>Hình ảnh bị chặn</h2>
+<p>Hình ảnh tải từ máy chủ bên ngoài bị chặn mặc định, vì người gửi có thể dùng chúng để biết bạn đã mở thư. Khi đó ngăn đọc hiện dòng báo; bấm <span class="ui">Tải hình ảnh</span> nếu bạn tin người gửi. Ảnh đính kèm trực tiếp trong thư vẫn hiện bình thường. Muốn luôn tải ảnh, bỏ dấu ở <span class="ui">Cài đặt → Chung → Chặn hình ảnh từ bên ngoài</span>.</p>
+<figure class="m"><img src="img/04c-chan-anh.png" alt=""><figcaption>Hình 5.2 — Thư có hình ảnh từ bên ngoài bị chặn</figcaption></figure>
+
+<h2>Mở thư trong cửa sổ riêng</h2>
+<p><b>Nhấp đúp</b> vào thư (hoặc chọn thư rồi nhấn <kbd>Enter</kbd>) để mở thư trong cửa sổ đọc lớn. Nút mũi tên chéo ở góc trên phải để phóng to, <kbd>Esc</kbd> để đóng. Trong cửa sổ này vẫn trả lời, chuyển tiếp, gắn cờ, xoá được. Cách này tiện nhất khi bạn tắt ngăn đọc.</p>
+<figure><img src="img/10c-cua-so-doc-thu.png" alt=""><figcaption>Hình 5.3 — Cửa sổ đọc thư</figcaption></figure>
+
+<!-- ============================================================ -->
+<h1 id="c6">6. Danh sách thư và cuộc hội thoại</h1>
+<h2>Đọc một dòng thư</h2>
+<figure class="xs"><img src="img/05a-nut-nhanh.png" alt=""><figcaption>Hình 6.1 — Danh sách thư; dòng “Ngân hàng ACB” đang được rê chuột</figcaption></figure>
+<ul>
+  <li>Mỗi dòng gồm người gửi, chủ đề, thời gian và một đoạn trích nội dung.</li>
+  <li><b>Thư chưa đọc</b>: tên người gửi in đậm, chủ đề màu xanh, có vạch xanh bên trái.</li>
+  <li><b>Biểu tượng kẹp giấy</b>: thư có tệp đính kèm. <b>Cờ đỏ</b>: thư đã gắn cờ. <b>Mũi tên cong</b>: thư bạn đã trả lời.</li>
+  <li>Thư được chia nhóm theo ngày: Hôm nay, Hôm qua, Tuần này, Tuần trước, rồi theo tháng.</li>
+</ul>
+<h2>Nút nhanh trên từng dòng</h2>
+<p>Rê chuột vào một dòng, bên phải hiện ba nút nhỏ: <b>đánh dấu đã đọc / chưa đọc</b> (phong bì), <b>ghim hội thoại</b> (đinh ghim) và <b>gắn cờ</b> (lá cờ). Bấm các nút này không làm mở thư.</p>
+
+<h2>Chọn nhiều thư</h2>
+<ul>
+  <li>Giữ <kbd>Ctrl</kbd> và bấm để chọn thêm từng thư.</li>
+  <li>Bấm thư đầu, giữ <kbd>Shift</kbd> và bấm thư cuối để chọn cả đoạn.</li>
+  <li><kbd>Ctrl</kbd>+<kbd>A</kbd> chọn tất cả thư đang hiện. Phím mũi tên lên/xuống để chuyển thư.</li>
+</ul>
+<p>Mọi lệnh (xoá, chuyển, đánh dấu, phân loại…) áp dụng cho tất cả thư đang chọn. Thanh trạng thái hiện số thư đã chọn.</p>
+
+<h2>Gom theo hội thoại</h2>
+<p>Thư gốc và các thư trả lời được gom thành một dòng, có <b>số đếm</b> cho biết cuộc hội thoại gồm bao nhiêu thư. Bấm mũi tên trước tên người gửi để mở ra xem từng thư; thư bạn đã gửi (nằm ở Thư đã gửi) cũng hiện trong chuỗi, có ghi “Tới: …”.</p>
+<figure class="xs"><img src="img/05b-hoi-thoai.png" alt=""><figcaption>Hình 6.2 — Cuộc hội thoại “Nguyễn Thu Hà” gồm 2 thư đang mở</figcaption></figure>
+<ul>
+  <li>Dòng đại diện luôn là thư mới nhất của cuộc hội thoại.</li>
+  <li>Xoá, chuyển, đánh dấu chỉ áp dụng cho thư bạn đang chọn, không phải cả cuộc.</li>
+  <li>Bật / tắt tại <span class="ui">Xem → Gom theo hội thoại</span>. Chức năng chỉ hoạt động khi sắp xếp theo ngày.</li>
+</ul>
+
+<h2>Ghim hội thoại</h2>
+<p>Thư quan trọng có thể ghim lên đầu danh sách, trong nhóm <b>Đã ghim</b>. Ghim bằng nút đinh ghim trên dòng thư, nút <span class="ui">Ghim</span> ở thẻ Trang chủ, hoặc menu chuột phải. Ghim một thư là ghim cả cuộc hội thoại; thư trả lời mới về tự được ghim theo. Bấm lại để bỏ ghim.</p>
+<figure class="xs"><img src="img/05d-ghim.png" alt=""><figcaption>Hình 6.3 — Thư được ghim đứng đầu danh sách</figcaption></figure>
+<div class="note">Ghim chỉ lưu trên máy này, không đồng bộ lên máy chủ hay sang máy khác.</div>
+
+<h2>Sắp xếp</h2>
+<p>Mở <span class="ui">Xem → Sắp xếp</span> và chọn: Mới nhất trước, Cũ nhất trước, Theo người gửi, Theo chủ đề, Theo dung lượng.</p>
+<figure class="m"><img src="img/10d-sap-xep.png" alt=""><figcaption>Hình 6.4 — Các kiểu sắp xếp</figcaption></figure>
+
+<!-- ============================================================ -->
+<h1 class="pb" id="c7">7. Soạn và gửi thư</h1>
+<h2>Soạn thư mới</h2>
+<p>Bấm <span class="ui">Thư mới</span> ở thẻ Trang chủ hoặc nhấn <kbd>Ctrl</kbd>+<kbd>N</kbd>.</p>
+<figure><img src="img/07d-soan-thu-day-du.png" alt=""><figcaption>Hình 7.1 — Cửa sổ soạn thư</figcaption></figure>
+<table>
+  <tr><th style="width:26%">Thành phần</th><th>Cách dùng</th></tr>
+  <tr><td>Từ</td><td>Chọn tài khoản gửi khi bạn có nhiều tài khoản.</td></tr>
+  <tr><td>Tới</td><td>Gõ địa chỉ người nhận; nhiều người cách nhau bằng dấu chấm phẩy. Khi gõ, ứng dụng gợi ý từ danh bạ.</td></tr>
+  <tr><td>Cc / Bcc</td><td>Bấm chữ <span class="ui">Cc / Bcc</span> bên phải để hiện thêm hai ô này.</td></tr>
+  <tr><td>Chủ đề</td><td>Tiêu đề thư.</td></tr>
+  <tr><td>Nút Gửi</td><td>Gửi thư, hoặc nhấn <kbd>Ctrl</kbd>+<kbd>Enter</kbd>.</td></tr>
+</table>
+<figure><img src="img/07e2-thanh-tuy-chon.png" alt=""><figcaption>Hình 7.2 — Thanh tuỳ chọn của thư</figcaption></figure>
+<ul>
+  <li><span class="ui">Đính kèm</span>: chọn một hoặc nhiều tệp. Tệp đã chọn hiện ngay bên dưới; bấm dấu × để bỏ.</li>
+  <li><b>Tam giác chấm than</b>: đặt mức quan trọng cao. <b>Mũi tên xuống</b>: mức quan trọng thấp.</li>
+  <li><span class="ui">Báo đã đọc</span>: yêu cầu người nhận xác nhận đã đọc (tuỳ chương trình mail của người nhận).</li>
+  <li><span class="ui">Lưu nháp</span> (<kbd>Ctrl</kbd>+<kbd>S</kbd>): cất thư vào Thư nháp để soạn tiếp sau. Mở lại bằng cách nhấp đúp thư trong Thư nháp.</li>
+</ul>
+<p>Hai nút ở góc trên phải cửa sổ soạn dùng để phóng to và đóng. Khi đóng thư đang soạn dở, ứng dụng hỏi bạn có muốn lưu nháp không.</p>
+
+<h2>Định dạng nội dung</h2>
+<figure><img src="img/07e-thanh-dinh-dang.png" alt=""><figcaption>Hình 7.3 — Thanh định dạng (đang đặt con trỏ trong bảng nên có thêm nhóm nút bảng)</figcaption></figure>
+<p>Bôi đen đoạn chữ rồi bấm nút tương ứng. Các nút theo thứ tự từ trái sang phải:</p>
+<table>
+  <tr><th style="width:34%">Nhóm</th><th>Chức năng</th></tr>
+  <tr><td>Hoàn tác / Làm lại</td><td><kbd>Ctrl</kbd>+<kbd>Z</kbd> / <kbd>Ctrl</kbd>+<kbd>Y</kbd></td></tr>
+  <tr><td>Phông chữ, Cỡ chữ, Kiểu đoạn</td><td>Kiểu đoạn gồm đoạn văn thường, tiêu đề 1–3, trích dẫn, chữ đều.</td></tr>
+  <tr><td>Kiểu chữ</td><td>Đậm, nghiêng, gạch chân, gạch ngang, chỉ số dưới, chỉ số trên.</td></tr>
+  <tr><td>Màu</td><td>Màu chữ và tô sáng (màu nền chữ).</td></tr>
+  <tr><td>Danh sách và thụt lề</td><td>Danh sách chấm, danh sách số, giảm / tăng thụt lề.</td></tr>
+  <tr><td>Căn lề</td><td>Trái, giữa, phải, đều hai bên.</td></tr>
+  <tr><td>Hàng thứ hai</td><td>Chèn liên kết, bỏ liên kết, chèn ảnh, chèn bảng, đường kẻ ngang, xoá định dạng.</td></tr>
+</table>
+<figure class="m"><img src="img/07b-bang-mau.png" alt=""><figcaption>Hình 7.4 — Bảng chọn màu chữ</figcaption></figure>
+<figure class="m"><img src="img/07c-chen-bang.png" alt=""><figcaption>Hình 7.5 — Lưới chọn kích thước bảng</figcaption></figure>
+<ul>
+  <li><b>Bảng</b>: bấm nút chèn bảng, rê chuột trên lưới để chọn số dòng × số cột. Khi con trỏ nằm trong bảng, thanh công cụ có thêm <span class="ui">+ Dòng</span>, <span class="ui">+ Cột</span>, <span class="ui">− Dòng</span>, <span class="ui">− Cột</span>, <span class="ui">Xoá bảng</span>. Nhấn <kbd>Tab</kbd> để sang ô kế; <kbd>Tab</kbd> ở ô cuối sẽ thêm một dòng mới.</li>
+  <li><b>Liên kết</b>: bôi đen chữ (hoặc đặt con trỏ), nhấn <kbd>Ctrl</kbd>+<kbd>K</kbd>, gõ địa chỉ rồi bấm <span class="ui">Chèn</span>.</li>
+  <li><b>Ảnh</b>: bấm nút chèn ảnh và chọn tệp; ảnh nằm trong nội dung thư. Bấm vào ảnh để hiện các nút đổi độ rộng.</li>
+</ul>
+<figure class="m"><img src="img/07f-chen-lien-ket.png" alt=""><figcaption>Hình 7.6 — Ô nhập địa chỉ liên kết</figcaption></figure>
+
+<h2>Trả lời và chuyển tiếp</h2>
+<table>
+  <tr><th style="width:26%">Lệnh</th><th style="width:24%">Phím tắt</th><th>Kết quả</th></tr>
+  <tr><td>Trả lời</td><td><kbd>Ctrl</kbd>+<kbd>R</kbd></td><td>Gửi lại cho người gửi.</td></tr>
+  <tr><td>Trả lời tất cả</td><td><kbd>Ctrl</kbd>+<kbd>Shift</kbd>+<kbd>R</kbd></td><td>Gửi cho người gửi và mọi người trong Tới, Cc (trừ bạn).</td></tr>
+  <tr><td>Chuyển tiếp</td><td><kbd>Ctrl</kbd>+<kbd>F</kbd></td><td>Gửi thư cho người khác, giữ nguyên tệp đính kèm.</td></tr>
+</table>
+<p>Nội dung thư gốc được trích bên dưới kèm thông tin Từ, Đã gửi, Tới, Chủ đề. Gõ phần trả lời ở phía trên.</p>
+<figure><img src="img/08a-tra-loi.png" alt=""><figcaption>Hình 7.7 — Trả lời tất cả: người gửi vào ô Tới, người được Cc giữ nguyên</figcaption></figure>
+<figure><img src="img/08b-chuyen-tiep.png" alt=""><figcaption>Hình 7.8 — Chuyển tiếp: tệp đính kèm của thư gốc được mang theo</figcaption></figure>
+
+<h2>Hoàn tác gửi — lấy lại thư gửi nhầm</h2>
+<p>Sau khi bấm Gửi, thư được giữ lại 10 giây trước khi gửi thật. Trong lúc đó, phía dưới màn hình có một thanh đếm ngược:</p>
+<figure class="s"><img src="img/07g-hoan-tac-gui.png" alt=""><figcaption>Hình 7.9 — Thanh hoàn tác gửi</figcaption></figure>
+<ul>
+  <li><span class="ui">Hoàn tác</span>: huỷ gửi và mở lại thư để sửa tiếp.</li>
+  <li><span class="ui">Gửi ngay</span>: bỏ qua thời gian chờ. Thanh đổi thành “Đang gửi…”; thư có tệp đính kèm lớn cần thêm vài giây để tải lên máy chủ.</li>
+</ul>
+<p>Đổi thời gian chờ (5–60 giây) hoặc tắt hẳn tại <span class="ui">Cài đặt → Chung → Hoàn tác gửi</span>.</p>
+<div class="warn"><b>Lưu ý:</b> khi thư đã rời máy thì không thu hồi được nữa. Đây là giới hạn chung của email; Mail Lite không có chức năng thu hồi thư đã gửi đi.</div>
+
+<h2>Chữ ký</h2>
+<p>Tạo chữ ký riêng cho từng tài khoản tại <span class="ui">Cài đặt → Chữ ký</span> (xem <a href="#c16">mục 16</a>). Chữ ký tự chèn vào thư mới, thư trả lời và chuyển tiếp.</p>
+
+<!-- ============================================================ -->
+<h1 id="c8">8. Tìm kiếm và lọc thư</h1>
+<h2>Thẻ lọc nhanh</h2>
+<p>Phía trên danh sách thư có bốn thẻ: <span class="ui">Tất cả</span>, <span class="ui">Chưa đọc</span>, <span class="ui">Có cờ</span>, <span class="ui">Có tệp</span>. Bấm một thẻ để chỉ xem nhóm thư đó trong thư mục đang mở.</p>
+<figure class="xs"><img src="img/06b-the-loc.png" alt=""><figcaption>Hình 8.1 — Thẻ “Có tệp”: chỉ còn thư có tệp đính kèm</figcaption></figure>
+<p>Khi đang gom theo hội thoại, mỗi cuộc hội thoại chỉ hiện những thư khớp với thẻ, kể cả thư bạn đã gửi trong cuộc đó.</p>
+
+<h2>Tìm nhanh</h2>
+<p>Bấm vào ô <span class="ui">Tìm thư</span> hoặc nhấn <kbd>Ctrl</kbd>+<kbd>E</kbd>, gõ từ cần tìm. Ứng dụng tìm trong chủ đề, người gửi, người nhận và nội dung thư.</p>
+<figure class="xs"><img src="img/06a-tim-nhanh.png" alt=""><figcaption>Hình 8.2 — Gõ “hoa don” vẫn tìm ra “Hoá đơn”</figcaption></figure>
+<ul>
+  <li>Gõ <b>không dấu</b> vẫn khớp chữ có dấu, không phân biệt hoa thường.</li>
+  <li>Gõ <b>nhiều từ</b>: ứng dụng ưu tiên những thư chứa đúng cả cụm (các từ đứng liền nhau). Chỉ khi không có thư nào chứa nguyên cụm, kết quả mới mở rộng ra những thư có đủ các từ ở bất kỳ vị trí nào.</li>
+  <li>Tìm nhanh chỉ tìm trong <b>thư mục đang mở</b> và trong <b>thẻ đang chọn</b>. Ví dụ đang ở thẻ Chưa đọc thì chỉ tìm thư chưa đọc.</li>
+  <li>Bấm dấu × trong ô tìm để xoá từ khoá và trở về danh sách đầy đủ.</li>
+</ul>
+
+<h2>Tìm kiếm nâng cao</h2>
+<p>Bấm nút có ba thanh trượt ở bên phải ô tìm. Bảng tìm kiếm nâng cao hiện giữa cửa sổ.</p>
+<figure><img src="img/06c-tim-nang-cao.png" alt=""><figcaption>Hình 8.3 — Bảng Tìm kiếm nâng cao</figcaption></figure>
+<table>
+  <tr><th style="width:26%">Ô</th><th>Ý nghĩa</th></tr>
+  <tr><td>Tìm trong</td><td>Phạm vi tìm (xem danh sách bên dưới).</td></tr>
+  <tr><td>Người gửi, Đến, Cc</td><td>Tên hoặc địa chỉ email.</td></tr>
+  <tr><td>Chủ đề</td><td>Từ có trong chủ đề.</td></tr>
+  <tr><td>Có các từ</td><td>Tìm trong chủ đề, người gửi/nhận và nội dung.</td></tr>
+  <tr><td>Không có</td><td>Loại những thư chứa các từ này.</td></tr>
+  <tr><td>Ngày … đến …</td><td>Khoảng ngày nhận thư.</td></tr>
+  <tr><td>Kích thước</td><td>Lớn hơn hoặc nhỏ hơn một số MB.</td></tr>
+  <tr><td>Trạng thái đọc</td><td>Tất cả, đã đọc hoặc chưa đọc.</td></tr>
+  <tr><td>Có tệp đính kèm, Đã gắn cờ</td><td>Đánh dấu để chỉ lấy thư có tệp / có cờ.</td></tr>
+</table>
+<p>Điền những ô cần thiết rồi bấm <span class="ui">Tìm kiếm</span> (hoặc <kbd>Enter</kbd>). Thư phải khớp tất cả điều kiện đã điền.</p>
+<figure class="pair"><img src="img/06d-pham-vi.png" alt=""><img src="img/06e-ket-qua-loc.png" alt=""><figcaption>Hình 8.4 — Các phạm vi tìm kiếm (trái); kết quả lọc, nút lọc có số 2 là số điều kiện đang dùng (phải)</figcaption></figure>
+<h3>Phạm vi “Tìm trong”</h3>
+<ul>
+  <li><b>Thư mục hiện tại</b> (mặc định).</li>
+  <li><b>Mọi tài khoản</b>: Tất cả thư (trừ Thư rác, Thùng rác), Hộp thư đến, Thư đã gắn cờ, Thư đã gửi, Thư nháp, Thư rác, Thùng rác.</li>
+  <li><b>Mở rộng</b>: Thư &amp; Thư rác &amp; Thùng rác.</li>
+  <li><b>Theo trạng thái</b>: Thư đã đọc, Thư chưa đọc.</li>
+</ul>
+<p>Để bỏ lọc, bấm <span class="ui">Xoá bộ lọc</span> trong bảng hoặc dấu × trong ô tìm.</p>
+<div class="note">Tìm kiếm chạy trên thư đã đồng bộ về máy. Thư cũ hơn phạm vi đồng bộ của tài khoản sẽ không có trong kết quả.</div>
+
+<!-- ============================================================ -->
+<h1 id="c9">9. Sắp xếp, phân loại và dọn dẹp thư</h1>
+<h2>Menu chuột phải</h2>
+<p>Nhấp chuột phải vào một thư (hoặc nhóm thư đang chọn) để có đầy đủ thao tác:</p>
+<figure><img src="img/05c-menu-chuot-phai.png" alt=""><figcaption>Hình 9.1 — Menu chuột phải trên thư</figcaption></figure>
+
+<h2>Các thao tác thường dùng</h2>
+<table>
+  <tr><th style="width:27%">Thao tác</th><th style="width:36%">Cách làm</th><th>Ghi chú</th></tr>
+  <tr><td>Đánh dấu đã đọc / chưa đọc</td><td>Nút <span class="ui">Đã đọc / Chưa đọc</span> · <kbd>Ctrl</kbd>+<kbd>Q</kbd> / <kbd>Ctrl</kbd>+<kbd>U</kbd></td><td>Hoặc nút phong bì trên dòng thư.</td></tr>
+  <tr><td>Gắn cờ theo dõi</td><td>Nút <span class="ui">Gắn cờ</span> · <kbd>Insert</kbd></td><td>Thư có cờ hiện trong “Thư đã gắn cờ”.</td></tr>
+  <tr><td>Phân loại màu</td><td>Nút <span class="ui">Phân loại ▾</span></td><td>Chỉ lưu trên máy này.</td></tr>
+  <tr><td>Chuyển thư mục</td><td>Nút <span class="ui">Chuyển tới…</span> · <kbd>Ctrl</kbd>+<kbd>Shift</kbd>+<kbd>V</kbd></td><td>Hoặc kéo thư thả vào thư mục.</td></tr>
+  <tr><td>Lưu trữ</td><td>Nút <span class="ui">Lưu trữ</span></td><td>Chuyển thư sang thư mục Lưu trữ.</td></tr>
+  <tr><td>Báo thư rác</td><td>Nút <span class="ui">Thư rác</span></td><td>Chuyển thư sang Thư rác.</td></tr>
+  <tr><td>Xoá</td><td>Nút <span class="ui">Xoá</span> · <kbd>Delete</kbd></td><td>Thư vào Thùng rác; xoá trong Thùng rác là xoá vĩnh viễn.</td></tr>
+  <tr><td>Lưu thành tệp</td><td>Chuột phải → <span class="ui">Lưu thành tệp .eml…</span></td><td>Tệp .eml mở được bằng hầu hết chương trình mail.</td></tr>
+</table>
+
+<h2>Phân loại màu</h2>
+<figure><img src="img/05e-phan-loai.png" alt=""><figcaption>Hình 9.2 — Danh sách phân loại</figcaption></figure>
+<p>Chọn thư, bấm <span class="ui">Phân loại ▾</span> và chọn một màu. Chọn <span class="ui">Xoá phân loại</span> để gỡ. Đổi tên, thêm, xoá phân loại tại <span class="ui">Sửa danh sách phân loại…</span> (xem <a href="#c16">mục 16</a>).</p>
+
+<h2>Chuyển thư sang thư mục khác</h2>
+<p>Chọn thư, bấm <span class="ui">Chuyển tới…</span>, gõ vài chữ để lọc tên thư mục nếu cần, chọn thư mục rồi bấm <span class="ui">Chuyển</span> (hoặc nhấp đúp vào thư mục). Bạn cũng có thể <b>kéo thư từ danh sách thả vào thư mục</b> trong cây thư mục.</p>
+<figure class="xs"><img src="img/09a-chuyen-toi.png" alt=""><figcaption>Hình 9.3 — Hộp thoại Chuyển tới thư mục</figcaption></figure>
+<div class="note">Chỉ chuyển được thư giữa các thư mục của cùng một tài khoản.</div>
+
+<h2>Xoá nhanh toàn bộ thư trong một thư mục</h2>
+<p>Mở thư mục cần dọn, bấm <span class="ui">Xoá tất cả…</span> ở thẻ Trang chủ (hoặc <span class="ui">Thư mục → Xoá toàn bộ thư…</span>) và xác nhận.</p>
+<figure class="s"><img src="img/09d-xoa-toan-bo.png" alt=""><figcaption>Hình 9.4 — Xác nhận xoá toàn bộ Hộp thư đến</figcaption></figure>
+<ul>
+  <li><b>Hộp thư đến và thư mục thường</b>: toàn bộ thư chuyển vào Thùng rác, vẫn lấy lại được cho đến khi dọn Thùng rác.</li>
+  <li><b>Thư rác và Thùng rác</b>: xoá vĩnh viễn, không hoàn tác được.</li>
+</ul>
+<div class="warn"><b>Lưu ý:</b> lệnh này áp dụng cho toàn bộ thư của thư mục trên máy chủ, kể cả thư cũ chưa tải về máy.</div>
+
+<!-- ============================================================ -->
+<h1 id="c10">10. Quản lý thư mục</h1>
+<figure class="s"><img src="img/09b-menu-thu-muc.png" alt=""><figcaption>Hình 10.1 — Menu chuột phải trên thư mục</figcaption></figure>
+<table>
+  <tr><th style="width:30%">Việc cần làm</th><th>Cách làm</th></tr>
+  <tr><td>Tạo thư mục</td><td>Chọn thư mục cha (hoặc tài khoản), bấm <span class="ui">Thư mục → Thư mục mới</span>, hoặc chuột phải → <span class="ui">Thư mục con mới…</span>, gõ tên rồi bấm <span class="ui">Tạo</span>.</td></tr>
+  <tr><td>Đổi tên</td><td><span class="ui">Thư mục → Đổi tên</span> hoặc chuột phải → <span class="ui">Đổi tên…</span></td></tr>
+  <tr><td>Xoá thư mục</td><td><span class="ui">Thư mục → Xoá thư mục</span>. Thư mục và toàn bộ thư bên trong bị xoá trên cả máy chủ, không hoàn tác được.</td></tr>
+  <tr><td>Đánh dấu tất cả đã đọc</td><td><span class="ui">Thư mục → Đánh dấu tất cả đã đọc</span></td></tr>
+  <tr><td>Đồng bộ một tài khoản</td><td>Chuột phải vào thư mục → <span class="ui">Đồng bộ tài khoản này</span></td></tr>
+  <tr><td>Chạy quy tắc trên thư cũ</td><td><span class="ui">Thư mục → Chạy quy tắc ngay</span></td></tr>
+  <tr><td>Xuất cả thư mục</td><td><span class="ui">Thư mục → Xuất .mbox</span>: lưu toàn bộ thư của thư mục thành một tệp để sao lưu hoặc chuyển sang chương trình khác.</td></tr>
+</table>
+<figure class="s"><img src="img/09c-thu-muc-moi.png" alt=""><figcaption>Hình 10.2 — Tạo thư mục con trong “Dự án”</figcaption></figure>
+<div class="note">Các thư mục hệ thống (Hộp thư đến, Thư nháp, Thư đã gửi, Lưu trữ, Thư rác, Thùng rác) không đổi tên và không xoá được. Thư mục được tạo, đổi tên, xoá trực tiếp trên máy chủ nên cũng thay đổi trên webmail và các thiết bị khác.</div>
+
+<!-- ============================================================ -->
+<h1 id="c11">11. Quy tắc tự động xử lý thư đến</h1>
+<p>Quy tắc giúp tự sắp xếp thư mới về Hộp thư đến. Mở bằng <span class="ui">Trang chủ → Quy tắc…</span> hoặc <span class="ui">Cài đặt → Quy tắc</span>, rồi bấm <span class="ui">+ Quy tắc mới</span>.</p>
+<figure class="m"><img src="img/13d2-quy-tac-moi.png" alt=""><figcaption>Hình 11.1 — Tạo quy tắc: thư có người gửi chứa “hoá đơn” thì chuyển vào Kế toán và chuyển tiếp cho kế toán trưởng</figcaption></figure>
+<h2>Các bước</h2>
+<ol>
+  <li>Đặt <b>tên quy tắc</b> và chọn áp dụng cho mọi tài khoản hay một tài khoản.</li>
+  <li>Chọn thư phải khớp <b>tất cả</b> hay <b>bất kỳ</b> điều kiện nào.</li>
+  <li>Thêm <b>điều kiện</b>: Người gửi, Người nhận, Chủ đề, Nội dung (chứa / không chứa / chính xác là một từ khoá), hoặc Có tệp đính kèm.</li>
+  <li>Thêm <b>hành động</b> (có thể nhiều hành động):
+    <ul>
+      <li>Chuyển tới thư mục</li>
+      <li>Chuyển tiếp thư tới một địa chỉ (kèm tệp đính kèm)</li>
+      <li>Đánh dấu đã đọc</li>
+      <li>Gắn cờ</li>
+      <li>Gán phân loại</li>
+      <li>Xoá</li>
+    </ul>
+  </li>
+  <li>Bấm <span class="ui">Lưu quy tắc</span>.</li>
+</ol>
+<figure class="m"><img src="img/13d-cd-quy-tac.png" alt=""><figcaption>Hình 11.2 — Danh sách quy tắc</figcaption></figure>
+<ul>
+  <li>Quy tắc chạy theo thứ tự từ trên xuống. Thư đã bị chuyển hoặc xoá sẽ không xét các quy tắc sau.</li>
+  <li>Bỏ dấu ở ô đầu dòng để tạm tắt một quy tắc. Biểu tượng bút chì để sửa, thùng rác để xoá.</li>
+  <li>Quy tắc chỉ chạy khi Mail Lite đang mở.</li>
+  <li><span class="ui">Chạy quy tắc ngay</span> (thẻ Thư mục) áp dụng quy tắc cho thư đã có sẵn, nhưng <b>không chuyển tiếp</b> thư cũ để tránh gửi hàng loạt ngoài ý muốn.</li>
+</ul>
+
+<!-- ============================================================ -->
+<h1 class="pb" id="c12">12. Trộn thư — gửi hàng loạt từ Excel</h1>
+<p>Trộn thư gửi cho mỗi người trong danh sách một thư riêng, nội dung thay đổi theo từng người (tên, số tiền, hạn thanh toán…). Người nhận không thấy địa chỉ của nhau. Mở bằng nút <span class="ui">Trộn thư</span> ở thẻ Trang chủ hoặc <kbd>Ctrl</kbd>+<kbd>Shift</kbd>+<kbd>M</kbd>.</p>
+
+<h2>Chuẩn bị tệp dữ liệu</h2>
+<p>Tệp <code>.xlsx</code> hoặc <code>.csv</code>, <b>dòng đầu là tiêu đề cột</b>, mỗi dòng sau là một người nhận.</p>
+<figure><img src="img/14a-tron-thu-buoc-1.png" alt=""><figcaption>Hình 12.1 — Bước 1 với ví dụ về cấu trúc tệp</figcaption></figure>
+<ul>
+  <li>Bắt buộc có một cột chứa địa chỉ email. Một ô có thể chứa nhiều địa chỉ cách nhau bằng dấu <code>;</code> — những người đó nhận chung một thư.</li>
+  <li>Số, ngày, phần trăm hiển thị trong thư giống như trong Excel (15.500.000 · 15/10/2026). Ô công thức lấy kết quả.</li>
+  <li>Cột tệp đính kèm riêng (tuỳ chọn): đường dẫn đầy đủ, hoặc đường dẫn tính từ thư mục chứa tệp Excel; nhiều tệp cách nhau bằng <code>;</code>.</li>
+  <li>Tệp <code>.xls</code> đời cũ chưa hỗ trợ — hãy lưu lại thành <code>.xlsx</code>. Tối đa 5.000 dòng mỗi đợt.</li>
+</ul>
+
+<h2>Bước 1 — Danh sách</h2>
+<p>Bấm <span class="ui">Chọn tệp Excel / CSV…</span>. Ứng dụng tự đoán cột email; kiểm tra lại ba ô chọn cột: <b>địa chỉ email</b> (bắt buộc), <b>Cc</b> và <b>tệp đính kèm riêng</b> (tuỳ chọn). Bảng bên dưới cho xem trước dữ liệu và số dòng có email hợp lệ.</p>
+<figure><img src="img/14b-tron-thu-danh-sach.png" alt=""><figcaption>Hình 12.2 — Đã đọc tệp: 3 trên 4 dòng có email hợp lệ</figcaption></figure>
+
+<h2>Bước 2 — Soạn mẫu</h2>
+<p>Chọn tài khoản gửi, gõ chủ đề và nội dung. Ở chỗ cần thay bằng dữ liệu từng người, bấm vào <b>tên cột</b> ở dòng “Chèn trường vào nội dung” — ứng dụng chèn <code>{{Tên cột}}</code>. Bạn cũng có thể tự gõ, không phân biệt hoa thường. Trường dùng được cả trong chủ đề.</p>
+<figure><img src="img/14c-tron-thu-soan-mau.png" alt=""><figcaption>Hình 12.3 — Mẫu thư có các trường {{Họ tên}}, {{Số tiền}}, {{Hạn thanh toán}}</figcaption></figure>
+<p>Nội dung định dạng được như thư thường. <span class="ui">Đính kèm chung</span> là tệp gửi kèm cho tất cả mọi người.</p>
+
+<h2>Bước 3 — Xem trước</h2>
+<figure><img src="img/14d-tron-thu-xem-truoc.png" alt=""><figcaption>Hình 12.4 — Xem trước thư của từng người</figcaption></figure>
+<ul>
+  <li>Dùng hai mũi tên để xem thư của từng người sau khi đã thay dữ liệu.</li>
+  <li>Dòng trên cùng tóm tắt: sẽ gửi bao nhiêu thư, bỏ qua bao nhiêu dòng không có email, dòng nào lỗi (email sai, thiếu tệp đính kèm).</li>
+  <li>Nếu mẫu có trường không khớp cột nào, ứng dụng báo và <b>không cho gửi</b> cho đến khi bạn sửa.</li>
+  <li><span class="ui">Nghỉ giữa hai thư</span>: khoảng giãn cách để tránh bị máy chủ coi là gửi thư rác.</li>
+  <li><span class="ui">Gửi thử cho tôi</span>: gửi thư của người đang xem về chính hộp thư của bạn để kiểm tra.</li>
+</ul>
+
+<h2>Bước 4 — Gửi</h2>
+<p>Bấm <span class="ui">Gửi … thư</span> và xác nhận. Bảng tiến độ ghi kết quả từng dòng.</p>
+<figure class="s"><img src="img/14e-tron-thu-xac-nhan.png" alt=""><figcaption>Hình 12.5 — Xác nhận trước khi gửi</figcaption></figure>
+<figure><img src="img/14f-tron-thu-dang-gui.png" alt=""><figcaption>Hình 12.6 — Đang gửi</figcaption></figure>
+<ul>
+  <li><span class="ui">Dừng gửi</span>: dừng đợt gửi ngay.</li>
+  <li><span class="ui">Ẩn (vẫn gửi nền)</span>: đóng hộp thoại, việc gửi tiếp tục chạy; tiến độ hiện ở thanh trạng thái.</li>
+  <li>Nếu 5 thư liên tiếp bị máy chủ từ chối, đợt gửi tự dừng.</li>
+</ul>
+<figure><img src="img/14i-tron-thu-ket-qua.png" alt=""><figcaption>Hình 12.7 — Kết quả: 3 thư đã gửi, 1 dòng bỏ qua vì không có email</figcaption></figure>
+<p>Xong, bấm <span class="ui">Lưu báo cáo .csv</span> để lưu kết quả từng dòng, <span class="ui">Đợt mới</span> để bắt đầu đợt khác. Các thư đã gửi nằm trong Thư đã gửi.</p>
+
+<h2>Gửi tiếp đợt đang dở</h2>
+<p>Đợt gửi được lưu xuống đĩa. Dù bạn bấm Dừng, đợt gửi tự dừng vì lỗi, hay bạn thoát ứng dụng / tắt máy giữa chừng, bạn vẫn gửi tiếp được.</p>
+<figure><img src="img/14g-tron-thu-tam-dung.png" alt=""><figcaption>Hình 12.8 — Đợt gửi tạm dừng ở 1 / 4</figcaption></figure>
+<figure><img src="img/14h-thanh-trang-thai-gui-do.png" alt=""><figcaption>Hình 12.9 — Thanh trạng thái nhắc còn đợt trộn thư gửi dở</figcaption></figure>
+<ul>
+  <li>Bấm vào dòng nhắc ở thanh trạng thái, rồi bấm <span class="ui">Tiếp tục gửi … dòng còn lại</span>. Người đã nhận thư không bị gửi lại.</li>
+  <li><span class="ui">Bỏ đợt này</span>: huỷ các dòng chưa gửi.</li>
+  <li>Gửi tiếp dùng dữ liệu đã đọc lúc bắt đầu đợt, không đọc lại tệp Excel.</li>
+  <li>Nếu ứng dụng bị tắt đột ngột đúng lúc đang gửi một thư, dòng đó được ghi “không rõ” và không tự gửi lại. Hãy kiểm tra Thư đã gửi rồi quyết định.</li>
+</ul>
+<div class="warn"><b>Lưu ý:</b> mỗi nhà cung cấp mail giới hạn số thư gửi mỗi ngày và mỗi phút. Hãy hỏi bộ phận IT hoặc xem tài liệu của nhà cung cấp trước khi gửi số lượng lớn. Thư trộn không qua bước hoàn tác gửi, đã gửi là không thu hồi được.</div>
+
+<!-- ============================================================ -->
+<h1 id="c13">13. Lịch</h1>
+<p>Bấm biểu tượng lịch ở góc dưới bên trái hoặc nhấn <kbd>Ctrl</kbd>+<kbd>2</kbd>. Lịch hiển thị theo tháng.</p>
+<figure><img src="img/11b-lich.png" alt=""><figcaption>Hình 13.1 — Lịch tháng, ngày hôm nay được tô tròn</figcaption></figure>
+<ul>
+  <li><span class="ui">+ Cuộc hẹn mới</span> hoặc <b>nhấp đúp vào một ngày</b> để tạo cuộc hẹn.</li>
+  <li>Hai mũi tên để sang tháng trước / tháng sau; <span class="ui">Hôm nay</span> để về tháng hiện tại.</li>
+  <li>Bấm vào một cuộc hẹn để sửa hoặc xoá.</li>
+</ul>
+<figure class="s"><img src="img/11a-cuoc-hen-moi.png" alt=""><figcaption>Hình 13.2 — Tạo cuộc hẹn</figcaption></figure>
+<p>Mỗi cuộc hẹn có tiêu đề, giờ bắt đầu và kết thúc (hoặc đánh dấu <span class="ui">Cả ngày</span>), địa điểm, màu, ghi chú và <b>nhắc trước</b>: không nhắc, đúng giờ, 5, 15, 30 phút, 1 giờ hoặc 1 ngày. Đến giờ nhắc, ứng dụng hiện thông báo của hệ thống.</p>
+<div class="note">Lịch chỉ lưu trên máy này, không đồng bộ với Google Calendar hay lịch Outlook. Nhắc việc chỉ hiện khi Mail Lite đang mở.</div>
+
+<!-- ============================================================ -->
+<h1 id="c14">14. Danh bạ</h1>
+<p>Bấm biểu tượng hai người ở góc dưới bên trái hoặc nhấn <kbd>Ctrl</kbd>+<kbd>3</kbd>.</p>
+<figure><img src="img/12a-danh-ba.png" alt=""><figcaption>Hình 14.1 — Danh bạ</figcaption></figure>
+<ul>
+  <li>Danh bạ <b>tự thu thập</b> những người bạn đã gửi thư (có nhãn “tự thêm”); bạn cũng có thể bấm <span class="ui">+ Liên hệ mới</span> để thêm tay.</li>
+  <li>Gõ vào ô tìm để lọc theo tên, email, công ty.</li>
+  <li>Ba nút ở cuối mỗi dòng: <b>gửi thư</b> cho người đó, <b>sửa</b>, <b>xoá</b>.</li>
+  <li>Khi soạn thư, ô Tới / Cc / Bcc gợi ý địa chỉ từ danh bạ này.</li>
+</ul>
+<figure class="s"><img src="img/12b-lien-he-moi.png" alt=""><figcaption>Hình 14.2 — Thêm liên hệ</figcaption></figure>
+<div class="note">Danh bạ chỉ lưu trên máy này, không đồng bộ với danh bạ Google hay Microsoft.</div>
+
+<!-- ============================================================ -->
+<h1 id="c15">15. Tuỳ chỉnh cách hiển thị</h1>
+<p>Mọi tuỳ chọn nằm ở thẻ <span class="ui">Xem</span> và được ghi nhớ.</p>
+<h2>Vị trí ngăn đọc</h2>
+<ul>
+  <li><span class="ui">Bên phải</span> (mặc định): danh sách và nội dung thư nằm cạnh nhau.</li>
+  <li><span class="ui">Bên dưới</span>: danh sách ở trên, nội dung ở dưới; kéo đường ranh ngang để đổi chiều cao.</li>
+  <li><span class="ui">Tắt</span>: chỉ còn danh sách thư. Nhấp đúp để đọc thư trong cửa sổ riêng. Ở chế độ này, chỉ chọn thư thì thư chưa bị đánh dấu đã đọc.</li>
+</ul>
+<figure><img src="img/10a-ngan-doc-ben-duoi.png" alt=""><figcaption>Hình 15.1 — Ngăn đọc bên dưới</figcaption></figure>
+<figure><img src="img/10b-ngan-doc-tat.png" alt=""><figcaption>Hình 15.2 — Ngăn đọc tắt</figcaption></figure>
+<h2>Mật độ</h2>
+<p><span class="ui">Thoáng</span> cho dòng thư cao, dễ đọc; <span class="ui">Gọn</span> thu hẹp khoảng cách để thấy nhiều thư hơn trên một màn hình.</p>
+<h2>Giao diện sáng / tối</h2>
+<p>Chọn <span class="ui">Sáng</span>, <span class="ui">Tối</span> hoặc <span class="ui">Theo hệ thống</span> (đổi theo cài đặt của máy).</p>
+<figure><img src="img/10f-giao-dien-toi.png" alt=""><figcaption>Hình 15.3 — Giao diện tối. Nội dung thư vẫn hiện trên nền trắng như người gửi đã soạn</figcaption></figure>
+
+<!-- ============================================================ -->
+<h1 class="pb" id="c16">16. Cài đặt</h1>
+<p>Bấm biểu tượng bánh răng ở góc dưới bên trái. Cài đặt gồm bảy mục; thay đổi được lưu ngay.</p>
+<h2>Tài khoản</h2>
+<p>Thêm, sửa, xoá tài khoản — xem <a href="#c3">mục 3</a>.</p>
+<h2>Chung</h2>
+<figure class="m"><img src="img/13b-cd-chung.png" alt=""><figcaption>Hình 16.1 — Cài đặt chung</figcaption></figure>
+<table>
+  <tr><th style="width:38%">Tuỳ chọn</th><th>Ý nghĩa</th></tr>
+  <tr><td>Tự động Gửi/Nhận mỗi</td><td>Chu kỳ đồng bộ mọi thư mục: 1, 2, 5, 10, 15, 30 hoặc 60 phút. Hộp thư đến vẫn nhận thư mới gần như tức thời khi máy chủ hỗ trợ.</td></tr>
+  <tr><td>Hoàn tác gửi</td><td>Thời gian giữ thư trước khi gửi thật: Tắt, 5, 10, 20, 30 hoặc 60 giây.</td></tr>
+  <tr><td>Hiện thông báo khi có thư mới</td><td>Bật / tắt thông báo của hệ thống.</td></tr>
+  <tr><td>Đánh dấu đã đọc khi mở thư trong ngăn đọc</td><td>Tắt nếu bạn muốn tự đánh dấu.</td></tr>
+  <tr><td>Chặn hình ảnh từ bên ngoài</td><td>Chống người gửi theo dõi việc mở thư.</td></tr>
+</table>
+<h2>Chữ ký</h2>
+<p>Chọn tài khoản, soạn chữ ký (định dạng được, chèn được logo, bảng, liên kết) rồi bấm <span class="ui">Lưu chữ ký</span>. Mỗi tài khoản có chữ ký riêng.</p>
+<figure class="m"><img src="img/13c-cd-chu-ky.png" alt=""><figcaption>Hình 16.2 — Soạn chữ ký</figcaption></figure>
+<h2>Quy tắc</h2>
+<p>Xem <a href="#c11">mục 11</a>.</p>
+<h2>Phân loại</h2>
+<p>Đổi tên, đổi màu, thêm hoặc xoá các phân loại. Đổi tên một phân loại không cập nhật những thư đã gán tên cũ.</p>
+<figure class="m"><img src="img/13e-cd-phan-loai.png" alt=""><figcaption>Hình 16.3 — Danh sách phân loại màu</figcaption></figure>
+<h2>Đăng nhập OAuth</h2>
+<p>Dùng khi muốn đăng nhập Google hoặc Microsoft bằng trang đăng nhập chính thức thay cho mật khẩu. Hai hãng này yêu cầu mỗi ứng dụng mail có một <b>Client ID</b> do bạn hoặc IT công ty đăng ký; việc này chỉ làm một lần. Các bước đăng ký ghi ngay trong màn hình này.</p>
+<figure class="m"><img src="img/13f-cd-oauth.png" alt=""><figcaption>Hình 16.4 — Khai báo Client ID cho Google và Microsoft</figcaption></figure>
+<h2>Dữ liệu — đổi nơi lưu</h2>
+<figure class="m"><img src="img/13g-cd-du-lieu.png" alt=""><figcaption>Hình 16.5 — Nơi lưu dữ liệu</figcaption></figure>
+<ul>
+  <li>Màn hình cho biết thư mục đang chứa toàn bộ thư, cơ sở dữ liệu và chỉ mục tìm kiếm.</li>
+  <li><span class="ui">Mở thư mục dữ liệu</span>: mở thư mục đó trong trình quản lý tệp.</li>
+  <li><span class="ui">Đổi nơi lưu…</span>: chọn thư mục hoặc ổ đĩa khác (ví dụ ổ D:). Ứng dụng chép toàn bộ thư, tài khoản và cài đặt sang vị trí mới rồi khởi động lại; bạn không phải đăng nhập lại. Sau khi đổi, có thêm nút <span class="ui">Về vị trí mặc định</span>.</li>
+  <li><b>Sao lưu</b>: chép cả thư mục dữ liệu, hoặc xuất từng thư mục ra tệp .mbox.</li>
+</ul>
+
+<!-- ============================================================ -->
+<h1 id="c17">17. Thông báo và làm việc khi mất mạng</h1>
+<h2>Nhận thư mới</h2>
+<ul>
+  <li>Hộp thư đến nhận thư mới gần như tức thời (khi máy chủ hỗ trợ), các thư mục khác đồng bộ theo chu kỳ đã đặt.</li>
+  <li>Muốn kiểm tra ngay, bấm <span class="ui">Gửi / Nhận → Gửi/Nhận tất cả</span> hoặc nhấn <kbd>F9</kbd>.</li>
+  <li>Khi có thư mới, hệ thống hiện thông báo với tên người gửi và chủ đề.</li>
+</ul>
+<h2>Trạng thái đồng bộ</h2>
+<p>Góc dưới bên phải cho biết tình trạng: “Tất cả thư mục đã cập nhật”, đang đồng bộ, đang ngoại tuyến, hoặc báo lỗi. Rê chuột vào tên tài khoản trong cây thư mục để xem nội dung lỗi của tài khoản đó (thường là sai mật khẩu hoặc mất kết nối).</p>
+<h2>Khi mất mạng</h2>
+<ul>
+  <li>Vẫn đọc và tìm kiếm được mọi thư đã đồng bộ về máy.</li>
+  <li>Các thao tác đánh dấu, gắn cờ, chuyển thư mục, xoá vẫn làm được; chúng được xếp hàng và tự đẩy lên máy chủ khi có mạng lại.</li>
+  <li><b>Gửi thư cần có mạng.</b> Nếu gửi thất bại, ứng dụng mở lại thư để bạn gửi lại, hoặc cất thư vào Thư nháp.</li>
+</ul>
+
+<!-- ============================================================ -->
+<h1 id="c18">18. Phím tắt</h1>
+<p>Trên macOS, dùng phím <kbd>⌘ Command</kbd> thay cho <kbd>Ctrl</kbd>.</p>
+<table class="keys">
+  <tr><th>Phím</th><th>Chức năng</th></tr>
+  <tr><td><kbd>Ctrl</kbd>+<kbd>N</kbd></td><td>Thư mới</td></tr>
+  <tr><td><kbd>Ctrl</kbd>+<kbd>R</kbd></td><td>Trả lời</td></tr>
+  <tr><td><kbd>Ctrl</kbd>+<kbd>Shift</kbd>+<kbd>R</kbd></td><td>Trả lời tất cả</td></tr>
+  <tr><td><kbd>Ctrl</kbd>+<kbd>F</kbd></td><td>Chuyển tiếp</td></tr>
+  <tr><td><kbd>Ctrl</kbd>+<kbd>Enter</kbd></td><td>Gửi thư đang soạn</td></tr>
+  <tr><td><kbd>Ctrl</kbd>+<kbd>S</kbd></td><td>Lưu nháp thư đang soạn</td></tr>
+  <tr><td><kbd>Delete</kbd></td><td>Xoá thư đang chọn</td></tr>
+  <tr><td><kbd>Ctrl</kbd>+<kbd>Q</kbd> / <kbd>Ctrl</kbd>+<kbd>U</kbd></td><td>Đánh dấu đã đọc / chưa đọc</td></tr>
+  <tr><td><kbd>Insert</kbd></td><td>Gắn / bỏ cờ</td></tr>
+  <tr><td><kbd>Ctrl</kbd>+<kbd>Shift</kbd>+<kbd>V</kbd></td><td>Chuyển tới thư mục</td></tr>
+  <tr><td><kbd>Ctrl</kbd>+<kbd>A</kbd></td><td>Chọn tất cả thư đang hiện</td></tr>
+  <tr><td><kbd>↑</kbd> / <kbd>↓</kbd></td><td>Thư trước / thư sau</td></tr>
+  <tr><td><kbd>Enter</kbd></td><td>Mở thư trong cửa sổ đọc</td></tr>
+  <tr><td><kbd>Ctrl</kbd>+<kbd>E</kbd></td><td>Đưa con trỏ vào ô tìm kiếm</td></tr>
+  <tr><td><kbd>F9</kbd></td><td>Gửi/Nhận tất cả</td></tr>
+  <tr><td><kbd>Ctrl</kbd>+<kbd>Shift</kbd>+<kbd>M</kbd></td><td>Trộn thư</td></tr>
+  <tr><td><kbd>Ctrl</kbd>+<kbd>1</kbd> / <kbd>2</kbd> / <kbd>3</kbd></td><td>Chuyển sang Thư / Lịch / Danh bạ</td></tr>
+  <tr><td><kbd>Esc</kbd></td><td>Đóng hộp thoại hoặc cửa sổ trên cùng</td></tr>
+  <tr><th colspan="2">Khi soạn thư</th></tr>
+  <tr><td><kbd>Ctrl</kbd>+<kbd>B</kbd> / <kbd>I</kbd> / <kbd>U</kbd></td><td>Đậm / nghiêng / gạch chân</td></tr>
+  <tr><td><kbd>Ctrl</kbd>+<kbd>K</kbd></td><td>Chèn liên kết</td></tr>
+  <tr><td><kbd>Ctrl</kbd>+<kbd>Z</kbd> / <kbd>Ctrl</kbd>+<kbd>Y</kbd></td><td>Hoàn tác / làm lại</td></tr>
+  <tr><td><kbd>Tab</kbd> (trong bảng)</td><td>Sang ô kế; ở ô cuối thì thêm dòng mới</td></tr>
+</table>
+
+<!-- ============================================================ -->
+<h1 id="c19">19. Giới hạn và câu hỏi thường gặp</h1>
+<h2>Những gì Mail Lite chưa có</h2>
+<ul>
+  <li>Giao thức Exchange (MAPI/EWS) và POP3 — chỉ hỗ trợ IMAP + SMTP.</li>
+  <li>Đồng bộ lịch, danh bạ với máy chủ và lời mời họp — lịch, danh bạ chỉ lưu trên máy.</li>
+  <li>Tệp PST/OST của Outlook — dùng .eml và .mbox thay thế.</li>
+  <li>In thư, chuyển thư giữa hai tài khoản, gửi thư khi đang mất mạng.</li>
+  <li>Thu hồi thư đã gửi, kiểm tra chính tả, mã hoá S/MIME/PGP, tự động cập nhật phiên bản.</li>
+</ul>
+
+<h2>Câu hỏi thường gặp</h2>
+<h3>Đăng nhập Gmail báo sai mật khẩu dù tôi gõ đúng?</h3>
+<p>Gmail không nhận mật khẩu thường từ ứng dụng mail. Hãy tạo <b>mật khẩu ứng dụng</b> như hướng dẫn ở <a href="#c3">mục 3</a>.</p>
+<h3>Không thấy thư cũ?</h3>
+<p>Mỗi tài khoản chỉ tải thư trong phạm vi đồng bộ đã chọn (mặc định 3 tháng). Mở <span class="ui">Gửi / Nhận → Quản lý tài khoản</span>, sửa tài khoản và chọn phạm vi dài hơn.</p>
+<h3>Số đếm trên dòng hội thoại lớn hơn số thư trong Hộp thư đến?</h3>
+<p>Số đếm tính cả thư bạn đã gửi trong cuộc hội thoại đó (nằm ở Thư đã gửi).</p>
+<h3>Tôi xoá nhầm thư, lấy lại thế nào?</h3>
+<p>Mở Thùng rác của tài khoản, chọn thư và dùng <span class="ui">Chuyển tới…</span> để đưa về Hộp thư đến. Thư đã xoá khỏi Thùng rác thì không lấy lại được.</p>
+<h3>Tôi gửi nhầm thư, thu hồi được không?</h3>
+<p>Chỉ trong thời gian chờ của Hoàn tác gửi (mặc định 10 giây). Có thể tăng lên tối đa 60 giây trong Cài đặt → Chung.</p>
+<h3>Ổ C sắp đầy, chuyển dữ liệu sang ổ khác được không?</h3>
+<p>Được: <span class="ui">Cài đặt → Dữ liệu → Đổi nơi lưu…</span></p>
+<h3>Chuyển sang máy tính mới thì thư có đi theo không?</h3>
+<p>Thư vẫn nằm trên máy chủ nên chỉ cần cài Mail Lite và thêm lại tài khoản trên máy mới. Riêng ghim, phân loại màu, quy tắc, chữ ký, lịch và danh bạ lưu trên máy cũ, cần thiết lập lại.</p>
+<h3>Mật khẩu của tôi được lưu thế nào?</h3>
+<p>Mật khẩu và mã đăng nhập được mã hoá bằng kho khoá của hệ điều hành (Windows DPAPI, macOS Keychain, Linux Secret Service) và chỉ lưu trên máy của bạn.</p>
+
+<p style="margin-top:30px;text-align:center;color:#777;font-size:9.5pt">— Mail Lite by ngthhung · Phiên bản 1.0.0 —</p>
+</body>
+</html>
