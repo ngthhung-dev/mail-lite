@@ -90,8 +90,10 @@ export interface Api {
   openExternal(url: string): Promise<void>
   openDataDir(): Promise<void>
   openGuide(): Promise<void>
-  /** sao lưu toàn bộ dữ liệu ra một tệp; null nếu người dùng huỷ */
-  backupData(): Promise<{ file: string; files: number; bytes: number } | null>
+  /** hỏi nơi lưu tệp sao lưu; null nếu huỷ */
+  pickBackupFile(): Promise<string | null>
+  /** sao lưu toàn bộ dữ liệu ra tệp đã chọn */
+  backupData(file: string): Promise<{ file: string; files: number; bytes: number }>
   /** khôi phục từ tệp sao lưu (thay toàn bộ dữ liệu) rồi khởi động lại; false nếu huỷ */
   restoreData(): Promise<boolean>
   /** chọn thư mục mới, chép dữ liệu sang rồi khởi động lại; trả về false nếu người dùng huỷ */

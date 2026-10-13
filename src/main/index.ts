@@ -49,6 +49,8 @@ let { dir: dataDir, custom: customDataDir } = resolveDataDir(userData, process.e
 
 let win: BrowserWindow | null = null
 let quitting = false
+/** thư mục lưu bản sao lưu lần trước (để lần sau mở đúng chỗ) */
+let lastBackupDir: string | null = null
 let engine: Engine
 
 function secure(): boolean {
@@ -180,23 +182,39 @@ const shellApi: Record<string, (...a: any[]) => unknown> = {
     const err = await shell.openPath(dest)
     if (err) throw new Error('Không mở được tệp hướng dẫn: ' + err)
   },
-  /** Sao lưu 1 lần bấm: chọn nơi lưu (mặc định thư mục Tài liệu) → ghi toàn bộ dữ liệu ra một tệp .mlbackup. */
-  async backupData(): Promise<{ file: string; files: number; bytes: number } | null> {
+  /**
+   * Bước 1 của sao lưu: hỏi nơi lưu. Mặc định thư mục Tải về (Downloads) — KHÔNG dùng Documents/Desktop vì
+   * Windows "Controlled folder access" chặn ứng dụng chưa ký số ghi vào đó (hộp thoại báo "File not found").
+   */
+  async pickBackupFile(): Promise<string | null> {
     const r = await dialog.showSaveDialog(win!, {
       title: 'Sao lưu toàn bộ dữ liệu Mail Lite',
-      defaultPath: path.join(app.getPath('documents'), backupFileName()),
+      defaultPath: path.join(lastBackupDir ?? app.getPath('downloads'), backupFileName()),
       filters: [{ name: 'Bản sao lưu Mail Lite', extensions: [BACKUP_EXT] }]
     })
     if (r.canceled || !r.filePath) return null
-    const file = r.filePath.toLowerCase().endsWith('.' + BACKUP_EXT) ? r.filePath : `${r.filePath}.${BACKUP_EXT}`
-    const m = await engine.backup(file, { version: app.getVersion(), build: __BUILD__, platform: process.platform })
-    return { file, files: m.files, bytes: fs.statSync(file).size }
+    lastBackupDir = path.dirname(r.filePath)
+    return r.filePath.toLowerCase().endsWith('.' + BACKUP_EXT) ? r.filePath : `${r.filePath}.${BACKUP_EXT}`
+  },
+  /** Bước 2: ghi toàn bộ dữ liệu ra tệp đã chọn. */
+  async backupData(file: string): Promise<{ file: string; files: number; bytes: number }> {
+    try {
+      const m = await engine.backup(file, { version: app.getVersion(), build: __BUILD__, platform: process.platform })
+      return { file, files: m.files, bytes: fs.statSync(file).size }
+    } catch (e: any) {
+      if (['EPERM', 'EACCES', 'ENOENT', 'EROFS'].includes(e?.code))
+        throw new Error(
+          `Không ghi được vào “${path.dirname(file)}”. Hãy chọn thư mục khác (ví dụ Downloads hoặc ổ D:). ` +
+            'Nếu máy bật "Controlled folder access" của Windows Security, thư mục Documents/Desktop sẽ chặn ứng dụng ghi tệp.'
+        )
+      throw e
+    }
   },
   /** Khôi phục từ tệp sao lưu: thay toàn bộ dữ liệu hiện tại rồi khởi động lại. Trả về false nếu người dùng huỷ. */
   async restoreData(): Promise<boolean> {
     const r = await dialog.showOpenDialog(win!, {
       title: 'Chọn tệp sao lưu Mail Lite',
-      defaultPath: app.getPath('documents'),
+      defaultPath: lastBackupDir ?? app.getPath('downloads'),
       properties: ['openFile'],
       filters: [{ name: 'Bản sao lưu Mail Lite', extensions: [BACKUP_EXT] }]
     })

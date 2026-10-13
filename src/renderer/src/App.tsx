@@ -652,13 +652,20 @@ export function App() {
     },
     backupData() {
       if (backupBusy) return
-      setBackupBusy(true)
-      toast('Đang sao lưu toàn bộ dữ liệu… (thư nhiều có thể mất vài phút)', 'info')
-      void api
-        .backupData()
-        .then((r) => r && toast(`Đã sao lưu ${r.files.toLocaleString('vi-VN')} tệp (${fmtBytes(r.bytes)}) vào ${r.file}`, 'ok'))
-        .catch((e: Error) => toast('Sao lưu thất bại: ' + e.message, 'error'))
-        .finally(() => setBackupBusy(false))
+      void (async () => {
+        const file = await api.pickBackupFile()
+        if (!file) return
+        setBackupBusy(true)
+        toast('Đang sao lưu toàn bộ dữ liệu… (thư nhiều có thể mất vài phút)', 'info')
+        try {
+          const r = await api.backupData(file)
+          toast(`Đã sao lưu ${r.files.toLocaleString('vi-VN')} tệp (${fmtBytes(r.bytes)}) vào ${r.file}`, 'ok')
+        } catch (e) {
+          toast('Sao lưu thất bại: ' + (e as Error).message, 'error')
+        } finally {
+          setBackupBusy(false)
+        }
+      })()
     },
     restoreData() {
       if (backupBusy) return
