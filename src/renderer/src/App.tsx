@@ -16,6 +16,7 @@ import { api, onEvent } from './api.ts'
 import { buildReply, draftFromMessage, emptyDraft, folderLabel } from './util.ts'
 import { ConfirmDialog, ContextMenu, PromptDialog, Toasts } from './components/ui.tsx'
 import type { MenuItem, Toast } from './components/ui.tsx'
+import { AboutDialog, ShortcutsDialog } from './components/HelpDialogs.tsx'
 import { Ribbon } from './components/Ribbon.tsx'
 import { FolderPane } from './components/FolderPane.tsx'
 import { MessageList } from './components/MessageList.tsx'
@@ -37,6 +38,8 @@ type Dialog =
   | { type: 'account'; account?: Account }
   | { type: 'settings'; tab?: string }
   | { type: 'merge' }
+  | { type: 'about' }
+  | { type: 'shortcuts' }
   | { type: 'move'; ids: number[]; accountId: number }
   | { type: 'prompt'; title: string; label: string; initial?: string; okLabel?: string; onOk: (v: string) => void }
   | { type: 'confirm'; title: string; message: string; okLabel: string; danger?: boolean; onOk: () => void }
@@ -65,6 +68,9 @@ export interface Actions {
   markAllRead(): void
   saveEml(): void
   setSettings(patch: Partial<AppSettings>): void
+  openGuide(): void
+  openShortcuts(): void
+  openAbout(): void
 }
 
 const clamp = (v: number, lo: number, hi: number): number => Math.max(lo, Math.min(hi, v))
@@ -217,7 +223,7 @@ export function App() {
       const [s, a, st] = await Promise.all([api.getSettings(), reloadMeta(), api.statuses()])
       setSettingsState(s)
       setStatuses(Object.fromEntries(st.map((x) => [x.accountId, x])))
-      void api.appInfo().then((i) => setVersion(i.version))
+      void api.appInfo().then((i) => setVersion(i.build ? `${i.version} (build ${i.build})` : i.version))
       setLoaded(true)
       if (a.length === 0) setDialog({ type: 'account' })
       // đợt trộn thư còn dở từ lần mở trước → nhắc để người dùng bấm gửi tiếp
@@ -631,6 +637,15 @@ export function App() {
         .then((n) => toast(n ? `Đã áp dụng quy tắc cho ${n} thư.` : 'Không có thư nào khớp quy tắc.', 'ok'))
         .catch((e: Error) => toast(e.message, 'error'))
     },
+    openGuide() {
+      void api.openGuide().catch((e: Error) => toast(e.message, 'error'))
+    },
+    openShortcuts() {
+      setDialog({ type: 'shortcuts' })
+    },
+    openAbout() {
+      setDialog({ type: 'about' })
+    },
     markAllRead() {
       const f = needFolder()
       if (!f) return
@@ -686,6 +701,8 @@ export function App() {
       else if (g && e.shiftKey && key === 'm') actions.openMerge()
       else if (g && key === ',') actions.openSettings()
       else if (key === 'f9') actions.syncAll()
+      else if (key === 'f1') actions.openGuide()
+      else if (g && key === '/') actions.openShortcuts()
       else hit = false
       if (hit) {
         e.preventDefault()
@@ -1067,6 +1084,8 @@ export function App() {
           onOpenOAuthSettings={() => setDialog({ type: 'settings', tab: 'oauth' })}
         />
       )}
+      {dialog?.type === 'shortcuts' && <ShortcutsDialog onClose={() => setDialog(null)} />}
+      {dialog?.type === 'about' && <AboutDialog onClose={() => setDialog(null)} onGuide={() => actions.openGuide()} />}
       {dialog?.type === 'settings' && (
         <SettingsDialog
           tab={dialog.tab}

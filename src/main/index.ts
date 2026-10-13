@@ -13,6 +13,9 @@ import { APP_NAME, APP_TAGLINE } from '../shared/types.ts'
 // tên hiển thị (menu, thông báo, thư mục dữ liệu) — đặt trước khi dùng app.getPath
 app.setName(APP_NAME)
 
+/** số build, gắn lúc build (xem electron.vite.config.ts) */
+declare const __BUILD__: string
+
 const ICON_FILE = path.join(__dirname, '../../resources/icon.png')
 /**
  * Windows lấy tên + biểu tượng hiện trên thông báo ("toast") từ mã ứng dụng này. Không đặt thì thông báo
@@ -167,6 +170,15 @@ const shellApi: Record<string, (...a: any[]) => unknown> = {
   openExternal(url: string): void {
     safeOpen(url)
   },
+  /** Mở tệp hướng dẫn sử dụng (PDF đi kèm ứng dụng) bằng trình đọc PDF của máy. */
+  async openGuide(): Promise<void> {
+    // tệp nằm trong app.asar → chép ra thư mục tạm để trình đọc PDF ngoài mở được
+    const src = path.join(__dirname, '../../docs/Mail-Lite-Huong-dan-su-dung.pdf')
+    const dest = path.join(app.getPath('temp'), 'Mail-Lite-Huong-dan-su-dung.pdf')
+    fs.writeFileSync(dest, fs.readFileSync(src))
+    const err = await shell.openPath(dest)
+    if (err) throw new Error('Không mở được tệp hướng dẫn: ' + err)
+  },
   async openDataDir(): Promise<void> {
     await shell.openPath(dataDir)
   },
@@ -185,6 +197,10 @@ const shellApi: Record<string, (...a: any[]) => unknown> = {
   appInfo() {
     return {
       version: app.getVersion(),
+      build: __BUILD__,
+      electron: process.versions.electron,
+      chrome: process.versions.chrome,
+      node: process.versions.node,
       dataDir,
       defaultDataDir: defaultDataDir(userData),
       customDataDir,

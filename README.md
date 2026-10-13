@@ -110,7 +110,7 @@ Nút **Trộn thư** trên thẻ Trang chủ (hoặc `Ctrl+Shift+M`). Tệp dữ
 
 ### Phím tắt
 
-`Ctrl+N` thư mới · `Ctrl+R` trả lời · `Ctrl+Shift+R` trả lời tất cả · `Ctrl+F` chuyển tiếp · `Delete` xoá · `Ctrl+Q` / `Ctrl+U` đã đọc / chưa đọc · `Insert` gắn cờ · `Ctrl+Shift+V` chuyển thư mục · `Ctrl+E` tìm · `F9` Gửi/Nhận · `Ctrl+Enter` gửi · `Ctrl+S` lưu nháp · `Ctrl+Shift+M` trộn thư · `Ctrl+1/2/3` Thư / Lịch / Danh bạ.
+`Ctrl+N` thư mới · `Ctrl+R` trả lời · `Ctrl+Shift+R` trả lời tất cả · `Ctrl+F` chuyển tiếp · `Delete` xoá · `Ctrl+Q` / `Ctrl+U` đã đọc / chưa đọc · `Insert` gắn cờ · `Ctrl+Shift+V` chuyển thư mục · `Ctrl+E` tìm · `F9` Gửi/Nhận · `Ctrl+Enter` gửi · `Ctrl+S` lưu nháp · `Ctrl+Shift+M` trộn thư · `Ctrl+1/2/3` Thư / Lịch / Danh bạ · `F1` hướng dẫn sử dụng · `Ctrl+/` bảng phím tắt · `Ctrl+,` cài đặt. Thẻ **Trợ giúp** có Hướng dẫn sử dụng (mở PDF đi kèm app), Phím tắt và Giới thiệu (phiên bản + số build, kiểm tra bản mới).
 
 ## Bảo mật
 

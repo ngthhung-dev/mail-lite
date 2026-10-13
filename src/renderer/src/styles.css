@@ -2323,3 +2323,87 @@ code {
 ::-webkit-scrollbar-thumb:hover {
   background-color: var(--muted);
 }
+
+/* ---------- Trợ giúp: Giới thiệu + Phím tắt ---------- */
+.about {
+  text-align: center;
+}
+.about img {
+  display: block;
+  margin: 4px auto 8px;
+}
+.about-name {
+  font-size: 20px;
+  font-weight: 600;
+}
+.about-tag {
+  color: var(--muted);
+}
+.about-ver {
+  margin-top: 6px;
+  font-weight: 600;
+  color: var(--accent);
+}
+.about p {
+  margin: 12px 0;
+  line-height: 1.5;
+}
+.about dl {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  gap: 4px 12px;
+  text-align: left;
+  margin: 0;
+  padding: 10px 12px;
+  background: var(--pane);
+  border-radius: 6px;
+  font-size: 12px;
+}
+.about dt {
+  color: var(--muted);
+}
+.about dd {
+  margin: 0;
+  min-width: 0;
+}
+.about dd.path {
+  word-break: break-all;
+}
+.keys-grid {
+  display: grid;
+  gap: 14px;
+  max-height: min(70vh, 640px);
+  overflow: auto;
+}
+.keys-grid h4 {
+  margin: 0 0 4px;
+  font-size: 13px;
+  color: var(--accent);
+}
+.keys-grid table {
+  width: 100%;
+  border-collapse: collapse;
+}
+.keys-grid td {
+  padding: 4px 6px;
+  border-bottom: 1px solid var(--border);
+  vertical-align: middle;
+}
+.keys-grid td.k {
+  width: 42%;
+  white-space: nowrap;
+}
+.keys-grid kbd {
+  display: inline-block;
+  font: inherit;
+  font-size: 12px;
+  padding: 1px 6px;
+  border: 1px solid var(--border-strong);
+  border-bottom-width: 2px;
+  border-radius: 4px;
+  background: var(--surface);
+}
+.keys-grid .sep {
+  margin: 0 3px;
+  color: var(--muted);
+}

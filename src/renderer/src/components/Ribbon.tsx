@@ -1,7 +1,7 @@
 import { useState } from 'react'
 import type { ReactNode } from 'react'
 import {
-  Archive, ArrowDownUp, Ban, CheckCheck, Download, FileSpreadsheet, Flag, FolderInput, FolderPen, FolderPlus, FolderX, Forward, Mail,
+  Archive, ArrowDownUp, Ban, BookOpen, Info, Keyboard, CheckCheck, Download, FileSpreadsheet, Flag, FolderInput, FolderPen, FolderPlus, FolderX, Forward, Mail,
   MailOpen, MailPlus, MessagesSquare, Moon, Pin, PinOff, PanelBottom, PanelRight, PanelRightClose, RefreshCw, Reply, ReplyAll, Rows3, Rows4,
   Settings, Sun, SunMoon, Tag, Trash2, UserPlus, Wand2, X
 } from 'lucide-react'
@@ -54,7 +54,7 @@ export function Ribbon(props: {
   busy: boolean
 }) {
   const { actions: a, selection, settings } = props
-  const [tab, setTab] = useState<'home' | 'sendrecv' | 'folder' | 'view'>('home')
+  const [tab, setTab] = useState<'home' | 'sendrecv' | 'folder' | 'view' | 'help'>('home')
   const [menu, setMenu] = useState<{ x: number; y: number; items: MenuItem[] } | null>(null)
   const none = selection.length === 0
   const one = selection.length === 1
@@ -74,7 +74,8 @@ export function Ribbon(props: {
             ['home', 'Trang chủ'],
             ['sendrecv', 'Gửi / Nhận'],
             ['folder', 'Thư mục'],
-            ['view', 'Xem']
+            ['view', 'Xem'],
+            ['help', 'Trợ giúp']
           ] as const
         ).map(([k, label]) => (
           <button key={k} className={`rtab ${tab === k ? 'on' : ''}`} onClick={() => setTab(k)}>
@@ -236,6 +237,17 @@ export function Ribbon(props: {
               <div className="rcol">
                 <Small icon={<SunMoon size={16} />} label="Theo hệ thống" on={settings.theme === 'system'} onClick={() => a.setSettings({ theme: 'system' })} />
               </div>
+            </Group>
+          </>
+        )}
+        {tab === 'help' && (
+          <>
+            <Group label="Trợ giúp">
+              <Big icon={<BookOpen size={24} />} label="Hướng dẫn sử dụng" title="Mở tài liệu hướng dẫn sử dụng (F1)" onClick={a.openGuide} />
+              <Big icon={<Keyboard size={24} />} label="Phím tắt" title="Danh sách phím tắt (Ctrl+/)" onClick={a.openShortcuts} />
+            </Group>
+            <Group label="Thông tin">
+              <Big icon={<Info size={24} />} label="Giới thiệu" title="Phiên bản, tác giả, kiểm tra bản mới" onClick={a.openAbout} />
             </Group>
           </>
         )}

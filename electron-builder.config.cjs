@@ -5,6 +5,7 @@ const config = {
   "files": [
     "out/**/*",
     "resources/**/*",
+    "docs/Mail-Lite-Huong-dan-su-dung.pdf",
     "package.json"
   ],
   "directories": {

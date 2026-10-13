@@ -89,10 +89,11 @@ export interface Api {
   exportMboxAs(folderId: number): Promise<number | null>
   openExternal(url: string): Promise<void>
   openDataDir(): Promise<void>
+  openGuide(): Promise<void>
   /** chọn thư mục mới, chép dữ liệu sang rồi khởi động lại; trả về false nếu người dùng huỷ */
   changeDataDir(): Promise<boolean>
   resetDataDir(): Promise<boolean>
-  appInfo(): Promise<{ version: string; dataDir: string; defaultDataDir: string; customDataDir: boolean; secureStorage: boolean; platform: string }>
+  appInfo(): Promise<{ version: string; build: string; electron: string; chrome: string; node: string; dataDir: string; defaultDataDir: string; customDataDir: boolean; secureStorage: boolean; platform: string }>
 }
 
 export const ENGINE_METHODS = [

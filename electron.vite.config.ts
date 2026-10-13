@@ -20,7 +20,8 @@ const csp = (): Plugin => ({
 })
 
 export default defineConfig({
-  main: { plugins: [externalizeDepsPlugin()] },
+  // số build do GitHub Actions truyền vào (BUILD_NUMBER); build tay trên máy thì để trống
+  main: { plugins: [externalizeDepsPlugin()], define: { __BUILD__: JSON.stringify(process.env.BUILD_NUMBER ?? '') } },
   preload: { plugins: [externalizeDepsPlugin()] },
   renderer: { plugins: [react(), csp()] }
 })
