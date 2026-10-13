@@ -1,0 +1,32 @@
+# Dọn Release cũ: xoá vĩnh viễn mọi Release (kèm tag) trừ Release mới nhất.
+# Chạy tay: tab Actions → Dọn Release cũ → Run workflow.
+name: Dọn Release cũ
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  cleanup:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Xoá Release cũ và tag
+        env:
+          GH_TOKEN: ${{ github.token }}
+          REPO: ${{ github.repository }}
+        run: |
+          latest=$(gh api "repos/$REPO/releases/latest" --jq .tag_name)
+          echo "Giữ lại: $latest"
+          gh api "repos/$REPO/releases" --paginate --jq '.[].tag_name' | while read -r tag; do
+            [ "$tag" = "$latest" ] && continue
+            echo "Xoá Release + tag: $tag"
+            gh release delete "$tag" --repo "$REPO" --yes --cleanup-tag
+          done
+          # tag còn sót không gắn Release nào (trừ tag của Release mới nhất)
+          gh api "repos/$REPO/tags" --paginate --jq '.[].name' | while read -r tag; do
+            [ "$tag" = "$latest" ] && continue
+            echo "Xoá tag lẻ: $tag"
+            gh api -X DELETE "repos/$REPO/git/refs/tags/$tag"
+          done
