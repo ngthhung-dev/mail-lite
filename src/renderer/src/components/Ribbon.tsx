@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useRef, useState } from 'react'
 import type { ReactNode } from 'react'
 import {
   Archive, ArrowDownUp, Ban, BookOpen, Info, Keyboard, CheckCheck, Download, FileSpreadsheet, Flag, FolderInput, FolderPen, FolderPlus, FolderX, Forward, Mail,
@@ -56,6 +56,16 @@ export function Ribbon(props: {
   const { actions: a, selection, settings } = props
   const [tab, setTab] = useState<'home' | 'sendrecv' | 'folder' | 'view' | 'help'>('home')
   const [menu, setMenu] = useState<{ x: number; y: number; items: MenuItem[] } | null>(null)
+  // rê chuột lên tên thẻ là mở thẻ đó luôn, không cần bấm; trễ một chút để lướt chuột ngang qua không làm nhảy thẻ
+  const hoverTimer = useRef<ReturnType<typeof setTimeout> | null>(null)
+  const hoverTab = (k: typeof tab): void => {
+    if (hoverTimer.current) clearTimeout(hoverTimer.current)
+    hoverTimer.current = setTimeout(() => setTab(k), 120)
+  }
+  const leaveTab = (): void => {
+    if (hoverTimer.current) clearTimeout(hoverTimer.current)
+    hoverTimer.current = null
+  }
   const none = selection.length === 0
   const one = selection.length === 1
   const allRead = !none && selection.every((m) => m.seen)
@@ -78,7 +88,16 @@ export function Ribbon(props: {
             ['help', 'Trợ giúp']
           ] as const
         ).map(([k, label]) => (
-          <button key={k} className={`rtab ${tab === k ? 'on' : ''}`} onClick={() => setTab(k)}>
+          <button
+            key={k}
+            className={`rtab ${tab === k ? 'on' : ''}`}
+            onClick={() => {
+              leaveTab()
+              setTab(k)
+            }}
+            onMouseEnter={() => hoverTab(k)}
+            onMouseLeave={leaveTab}
+          >
             {label}
           </button>
         ))}
