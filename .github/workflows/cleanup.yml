@@ -1,5 +1,6 @@
 # Dọn Release cũ: xoá vĩnh viễn mọi Release (kèm tag) trừ Release mới nhất,
-# và xoá mọi bản build trong mục Artifacts của các lần chạy (bản cài đã nằm trên trang Releases).
+# xoá mọi bản build trong mục Artifacts, và xoá lịch sử các lần chạy ở tab Actions
+# (trừ chính lần dọn này — đang chạy thì không tự xoá được).
 # Chạy tay: tab Actions → Dọn Release cũ → Run workflow.
 name: Dọn Release cũ
 
@@ -41,4 +42,17 @@ jobs:
           gh api "repos/$REPO/actions/artifacts" --paginate --jq '.artifacts[] | "\(.id) \(.name)"' | while read -r id name; do
             echo "Xoá artifact: $name ($id)"
             gh api -X DELETE "repos/$REPO/actions/artifacts/$id"
+          done
+
+      - name: Xoá lịch sử các lần chạy
+        env:
+          GH_TOKEN: ${{ github.token }}
+          REPO: ${{ github.repository }}
+          SELF: ${{ github.run_id }}
+        run: |
+          gh api "repos/$REPO/actions/runs" --paginate --jq '.workflow_runs[] | "\(.id) \(.status)"' | while read -r id status; do
+            [ "$id" = "$SELF" ] && continue
+            [ "$status" = "completed" ] || { echo "Bỏ qua lần chạy đang dở: $id"; continue; }
+            echo "Xoá lần chạy: $id"
+            gh api -X DELETE "repos/$REPO/actions/runs/$id"
           done
