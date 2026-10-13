@@ -426,6 +426,7 @@
   <tr><td>Đánh dấu tất cả đã đọc</td><td><span class="ui">Thư mục → Đánh dấu tất cả đã đọc</span></td></tr>
   <tr><td>Đồng bộ một tài khoản</td><td>Chuột phải vào thư mục → <span class="ui">Đồng bộ tài khoản này</span></td></tr>
   <tr><td>Chạy quy tắc trên thư cũ</td><td><span class="ui">Thư mục → Chạy quy tắc ngay</span></td></tr>
+  <tr><td>Sao lưu / khôi phục toàn bộ</td><td><span class="ui">Thư mục → Sao lưu dữ liệu</span> / <span class="ui">Khôi phục…</span> — xem mục 16.</td></tr>
   <tr><td>Xuất cả thư mục</td><td><span class="ui">Thư mục → Xuất .mbox</span>: lưu toàn bộ thư của thư mục thành một tệp để sao lưu hoặc chuyển sang chương trình khác.</td></tr>
 </table>
 <figure class="s"><img src="img/09c-thu-muc-moi.png" alt=""><figcaption>Hình 10.2 — Tạo thư mục con trong “Dự án”</figcaption></figure>
@@ -592,7 +593,19 @@
   <li>Màn hình cho biết thư mục đang chứa toàn bộ thư, cơ sở dữ liệu và chỉ mục tìm kiếm.</li>
   <li><span class="ui">Mở thư mục dữ liệu</span>: mở thư mục đó trong trình quản lý tệp.</li>
   <li><span class="ui">Đổi nơi lưu…</span>: chọn thư mục hoặc ổ đĩa khác (ví dụ ổ D:). Ứng dụng chép toàn bộ thư, tài khoản và cài đặt sang vị trí mới rồi khởi động lại; bạn không phải đăng nhập lại. Sau khi đổi, có thêm nút <span class="ui">Về vị trí mặc định</span>.</li>
-  <li><b>Sao lưu</b>: chép cả thư mục dữ liệu, hoặc xuất từng thư mục ra tệp .mbox.</li>
+</ul>
+<h2>Sao lưu &amp; khôi phục</h2>
+<p>Sao lưu ghi <b>toàn bộ dữ liệu</b> — thư và tệp đính kèm, tài khoản, cài đặt, chữ ký, quy tắc, phân loại, lịch, danh bạ — ra <b>một tệp</b> đuôi <code>.mlbackup</code>. Làm được ngay khi Mail Lite đang chạy.</p>
+<ol>
+  <li>Bấm <span class="ui">Sao lưu toàn bộ…</span> (Cài đặt → Dữ liệu) hoặc <span class="ui">Thư mục → Sao lưu dữ liệu</span> trên thanh công cụ.</li>
+  <li>Chọn nơi lưu (mặc định thư mục Tài liệu, tên tệp có sẵn ngày giờ, ví dụ <code>Mail-Lite-sao-luu-2026-10-13-1500.mlbackup</code>) rồi bấm <span class="ui">Save</span>.</li>
+  <li>Xong sẽ có thông báo số tệp và dung lượng. Nên chép tệp này sang USB, ổ mạng hoặc dịch vụ lưu trữ đám mây.</li>
+</ol>
+<p><b>Khôi phục</b>: bấm <span class="ui">Khôi phục từ bản sao lưu…</span> (hoặc <span class="ui">Thư mục → Khôi phục…</span>), chọn tệp <code>.mlbackup</code>. Mail Lite hiện ngày giờ sao lưu và danh sách tài khoản để bạn xác nhận, sau đó thay toàn bộ dữ liệu hiện tại bằng bản sao lưu và khởi động lại.</p>
+<ul>
+  <li>Dữ liệu hiện tại trước khi khôi phục được giữ lại một bản cạnh thư mục dữ liệu (đuôi <code>.truoc-khoi-phuc</code>), phòng khi cần lấy lại; có thể xoá thư mục đó khi không cần nữa.</li>
+  <li>Khôi phục trên <b>cùng máy</b>: dùng được ngay. Khôi phục sang <b>máy khác</b>: mật khẩu đã lưu được mã hoá theo máy cũ nên không giải mã được — vào <span class="ui">Gửi / Nhận → Quản lý tài khoản → Sửa</span> để nhập lại mật khẩu (hoặc đăng nhập lại Microsoft/Google).</li>
+  <li>Muốn xuất riêng một thư mục ra tệp <code>.mbox</code> (mở được bằng chương trình mail khác): <span class="ui">Thư mục → Xuất .mbox</span>.</li>
 </ul>
 
 <!-- ============================================================ -->
@@ -670,7 +683,7 @@
 <h3>Ổ C sắp đầy, chuyển dữ liệu sang ổ khác được không?</h3>
 <p>Được: <span class="ui">Cài đặt → Dữ liệu → Đổi nơi lưu…</span></p>
 <h3>Chuyển sang máy tính mới thì thư có đi theo không?</h3>
-<p>Thư vẫn nằm trên máy chủ nên chỉ cần cài Mail Lite và thêm lại tài khoản trên máy mới. Riêng ghim, phân loại màu, quy tắc, chữ ký, lịch và danh bạ lưu trên máy cũ, cần thiết lập lại.</p>
+<p>Cách gọn nhất: trên máy cũ bấm <span class="ui">Sao lưu toàn bộ…</span>, chép tệp <code>.mlbackup</code> sang máy mới, cài Mail Lite rồi bấm <span class="ui">Khôi phục từ bản sao lưu…</span>. Mọi thứ (thư, ghim, phân loại, quy tắc, chữ ký, lịch, danh bạ) được chuyển sang; chỉ cần nhập lại mật khẩu các tài khoản.</p>
 <h3>Mật khẩu của tôi được lưu thế nào?</h3>
 <p>Mật khẩu và mã đăng nhập được mã hoá bằng kho khoá của hệ điều hành (Windows DPAPI, macOS Keychain, Linux Secret Service) và chỉ lưu trên máy của bạn.</p>
 

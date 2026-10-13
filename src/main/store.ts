@@ -357,6 +357,10 @@ export class Store {
   close(): void {
     this.db.close()
   }
+  /** Ghi bản chụp nhất quán của CSDL ra tệp khác (dùng khi sao lưu lúc app đang chạy). */
+  snapshot(file: string): void {
+    this.db.exec(`VACUUM INTO '${file.replace(/'/g, "''")}'`)
+  }
 
   private all(sql: string, ...params: any[]): Row[] {
     return this.db.prepare(sql).all(...params) as Row[]

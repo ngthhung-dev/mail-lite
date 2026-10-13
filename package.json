@@ -20,7 +20,8 @@
     "exceljs": "^4.4.0",
     "imapflow": "^2.3.0",
     "mailparser": "^3.9.37",
-    "nodemailer": "^10.0.16"
+    "nodemailer": "^10.0.16",
+    "tar": "^7.5.22"
   },
   "devDependencies": {
     "@types/mailparser": "^3.9.0",

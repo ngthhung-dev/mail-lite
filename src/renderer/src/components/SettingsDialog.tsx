@@ -1,9 +1,8 @@
 import { useEffect, useState } from 'react'
-import { FolderOpen, Pencil, Plus, ShieldAlert, ShieldCheck, Trash2 } from 'lucide-react'
+import { ArchiveRestore, DatabaseBackup, FolderOpen, Pencil, Plus, ShieldAlert, ShieldCheck, Trash2 } from 'lucide-react'
 import type { Account, AppSettings, Folder, Rule, RuleAction, RuleCondition } from '../../../shared/types.ts'
 import { api } from '../api.ts'
 import { isEmail } from '../../../shared/merge.ts'
-import { APP_TAGLINE } from '../../../shared/types.ts'
 import { buildTree, flattenTree, fmtFull, folderLabel } from '../util.ts'
 import { ConfirmDialog, Field, Modal } from './ui.tsx'
 import { RichEditor } from './RichEditor.tsx'
@@ -194,6 +193,9 @@ export function SettingsDialog(props: {
   onAddAccount: () => void
   onChanged: () => void
   toast: (text: string, kind?: Toast['kind']) => void
+  onBackup: () => void
+  onRestore: () => void
+  backupBusy?: boolean
 }) {
   const [tab, setTab] = useState(props.tab ?? 'accounts')
   const [rules, setRules] = useState<Rule[]>([])
@@ -433,8 +435,23 @@ export function SettingsDialog(props: {
                     : 'Máy này không có kho khoá hệ thống (thường gặp trên Linux thiếu gnome-keyring/kwallet). Mật khẩu hiện chỉ được mã hoá yếu — hãy cài kho khoá rồi nhập lại mật khẩu.'}
                 </span>
               </div>
-              <p className="muted small">Sao lưu: chép cả thư mục trên. Xuất từng thư mục ra .mbox ở thẻ Thư mục trên thanh công cụ. </p>
-              <p className="muted small">{APP_TAGLINE} · phiên bản {info.version}</p>
+              <h3 style={{ marginTop: 18 }}>Sao lưu &amp; khôi phục</h3>
+              <p className="small">
+                Ghi toàn bộ dữ liệu — thư, tệp đính kèm, tài khoản, cài đặt, chữ ký, quy tắc, phân loại, lịch, danh bạ — ra <b>một tệp .mlbackup</b>. Chép tệp đó
+                sang USB, ổ mạng hoặc máy khác để cất giữ.
+              </p>
+              <div className="btn-row">
+                <button className="btn primary" onClick={props.onBackup} disabled={props.backupBusy}>
+                  <DatabaseBackup size={15} /> {props.backupBusy ? 'Đang sao lưu…' : 'Sao lưu toàn bộ…'}
+                </button>
+                <button className="btn" onClick={props.onRestore} disabled={props.backupBusy}>
+                  <ArchiveRestore size={15} /> Khôi phục từ bản sao lưu…
+                </button>
+              </div>
+              <p className="muted small">
+                Khôi phục sẽ thay toàn bộ dữ liệu hiện tại (bản hiện tại được giữ lại một bản phòng khi cần). Khôi phục trên máy khác thì cần nhập lại mật khẩu các
+                tài khoản. Muốn xuất riêng từng thư mục ra .mbox: thẻ Thư mục trên thanh công cụ.
+              </p>
             </>
           )}
         </div>

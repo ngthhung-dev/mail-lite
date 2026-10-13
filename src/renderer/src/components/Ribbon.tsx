@@ -1,7 +1,7 @@
 import { useRef, useState } from 'react'
 import type { ReactNode } from 'react'
 import {
-  Archive, ArrowDownUp, Ban, BookOpen, Info, Keyboard, CheckCheck, Download, FileSpreadsheet, Flag, FolderInput, FolderPen, FolderPlus, FolderX, Forward, Mail,
+  Archive, ArchiveRestore, ArrowDownUp, Ban, BookOpen, DatabaseBackup, Info, Keyboard, CheckCheck, Download, FileSpreadsheet, Flag, FolderInput, FolderPen, FolderPlus, FolderX, Forward, Mail,
   MailOpen, MailPlus, MessagesSquare, Moon, Pin, PinOff, PanelBottom, PanelRight, PanelRightClose, RefreshCw, Reply, ReplyAll, Rows3, Rows4,
   Settings, Sun, SunMoon, Tag, Trash2, UserPlus, Wand2, X
 } from 'lucide-react'
@@ -245,6 +245,12 @@ export function Ribbon(props: {
                   onClick={a.emptyFolder}
                   title="Xoá nhanh toàn bộ thư trong thư mục đang mở (Hộp thư đến → vào Thùng rác; Thư rác / Thùng rác → xoá vĩnh viễn)"
                 />
+              </div>
+            </Group>
+            <Group label="Sao lưu">
+              <Big icon={<DatabaseBackup size={24} />} label="Sao lưu dữ liệu" title="Sao lưu toàn bộ thư, tài khoản, quy tắc, lịch, danh bạ ra một tệp .mlbackup" onClick={a.backupData} />
+              <div className="rcol">
+                <Small icon={<ArchiveRestore size={16} />} label="Khôi phục…" title="Khôi phục từ tệp sao lưu (.mlbackup)" onClick={a.restoreData} />
               </div>
             </Group>
             <Group label="Công cụ">

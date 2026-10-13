@@ -9,6 +9,7 @@ import { Engine, safeFileName } from '../src/main/engine.ts'
 import type { AppEvent, AccountInput, MergeJob } from '../src/shared/types.ts'
 import { parseCsv } from '../src/main/merge.ts'
 import { Store } from '../src/main/store.ts'
+import { createBackup, readBackupInfo, restoreBackup } from '../src/main/backup.ts'
 import { copyData, planTarget, readConfig, resolveDataDir, writeConfig } from '../src/main/datadir.ts'
 import { DatabaseSync } from 'node:sqlite'
 import { renderTemplate, rowRecord, templateFields } from '../src/shared/merge.ts'
@@ -679,6 +680,41 @@ async function main(): Promise<void> {
   assert.match(engine.mergeStatus()!.stopped ?? '', /dừng/)
   assert.equal(engine.mergeStatus()!.remaining, 2)
   ok('bấm dừng giữa chừng: dừng ngay cả khi đang nghỉ giữa hai thư, không gửi thêm')
+
+  console.log('Sao lưu & khôi phục')
+  {
+    const bkDir = fs.mkdtempSync(path.join(os.tmpdir(), 'maillite-bk-'))
+    const file = path.join(bkDir, 'sao-luu.mlbackup')
+    const before = engine.listMessages({ limit: 100000 }).length
+    const nFolders = engine.listFolders().length
+    const man = await engine.backup(file, { version: '1.0.0', build: '9', platform: 'test' })
+    assert.ok(fs.statSync(file).size > 1000 && man.files > 3)
+    assert.deepEqual(man.accounts, engine.listAccounts().map((a) => a.email))
+    assert.ok(!fs.readdirSync(dataDir).some((n) => n.startsWith('mail-lite-backup')), 'không để lại tệp tạm trong thư mục dữ liệu')
+    const info = await readBackupInfo(file)
+    assert.equal(info.build, '9')
+    // khôi phục vào một thư mục khác (đang có dữ liệu cũ) rồi mở bằng engine mới: đủ thư, thư mục, nội dung thư offline
+    const target = path.join(bkDir, 'data')
+    fs.mkdirSync(target)
+    fs.writeFileSync(path.join(target, 'cu.txt'), 'du lieu cu')
+    const r = await restoreBackup(file, target)
+    assert.ok(r.keptOld && fs.existsSync(path.join(r.keptOld, 'cu.txt')), 'dữ liệu cũ được giữ lại một bản')
+    assert.ok(!fs.existsSync(path.join(target, 'cu.txt')))
+    const e2 = new Engine({ dataDir: target, encrypt: (x) => 'enc:' + Buffer.from(x).toString('base64'), decrypt: (x) => Buffer.from(x.slice(4), 'base64').toString(), openExternal: () => undefined, emit: () => undefined })
+    assert.equal(e2.listMessages({ limit: 100000 }).length, before)
+    assert.equal(e2.listFolders().length, nFolders)
+    const one = e2.listMessages({ limit: 100000 }).find((m) => m.subject === 'Hợp đồng kèm tệp')!
+    assert.ok((await e2.getMessage(one.id))?.bodyAvailable, 'nội dung thư (.eml) đi kèm bản sao lưu')
+    assert.equal(e2.store.getSecret(acc.id), engine.store.getSecret(acc.id), 'mật khẩu (đã mã hoá) được giữ')
+    await e2.stop()
+    // tệp không phải bản sao lưu → báo lỗi rõ ràng, không đụng tới dữ liệu
+    const bad = path.join(bkDir, 'la.mlbackup')
+    fs.writeFileSync(bad, 'khong phai tar')
+    await assert.rejects(() => restoreBackup(bad, target))
+    assert.equal(fs.readdirSync(target).includes('maillite.db'), true)
+    fs.rmSync(bkDir, { recursive: true, force: true })
+  }
+  ok('sao lưu 1 tệp khi app đang chạy, khôi phục ra đủ thư/thư mục/nội dung, giữ lại bản cũ, từ chối tệp lạ')
 
   console.log('Đổi nơi lưu dữ liệu + nâng cấp CSDL cũ')
   const ud = fs.mkdtempSync(path.join(os.tmpdir(), 'maillite-ud-'))

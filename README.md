@@ -83,6 +83,7 @@ npm run build && node docs/shots.cjs && node docs/build-pdf.cjs && python3 docs/
 - **Xoá nhanh cả thư mục**: nút "Xoá tất cả…" — Hộp thư đến và thư mục thường chuyển hết vào Thùng rác, Thư rác/Thùng rác xoá vĩnh viễn; áp dụng cho toàn bộ thư trên máy chủ, kể cả thư cũ chưa đồng bộ về máy.
 - **Kéo đổi kích thước** cây thư mục, danh sách thư và ngăn đọc — cả chiều rộng (ngăn đọc bên phải) lẫn chiều cao (ngăn đọc bên dưới); nhấp đúp vào thanh kéo để về mặc định; kích thước được ghi nhớ.
 - **Cửa sổ đọc thư**: nhấp đúp vào thư (hoặc Enter) để mở thư trong cửa sổ riêng, phóng to được — tiện nhất khi tắt ngăn đọc. Khi ngăn đọc tắt, chỉ chọn thư thì chưa tính là đã đọc.
+- **Sao lưu / khôi phục 1 lần bấm** (Cài đặt → Dữ liệu, hoặc thẻ Thư mục): toàn bộ dữ liệu ra một tệp `.mlbackup` (tar.gz, có bản chụp CSDL nhất quán khi app đang chạy); khôi phục giữ lại bản cũ ở `<thư mục dữ liệu>.truoc-khoi-phuc`.
 - **Đổi nơi lưu dữ liệu** (Cài đặt → Dữ liệu): chép toàn bộ thư, tài khoản, cài đặt sang thư mục/ổ đĩa khác rồi khởi động lại.
 - **Tìm kiếm**: ô tìm nằm ngay trên danh sách thư (`Ctrl+E`), tìm toàn văn (SQLite FTS5), gõ không dấu vẫn ra tiếng Việt có dấu. **Tìm kiếm nâng cao** (nút bên phải ô tìm): phạm vi (thư mục hiện tại, tất cả thư, hộp thư đến, đã gắn cờ, đã gửi, nháp, thư rác, thùng rác, tất cả kể cả rác, đã đọc, chưa đọc), người gửi, đến, Cc, chủ đề, có các từ, không có từ, khoảng ngày, kích thước, trạng thái đọc, có tệp đính kèm, đã gắn cờ. Tìm nhanh chỉ tìm trong thẻ đang chọn (Tất cả / Chưa đọc / Có cờ / Có tệp). Tìm trên thư đã đồng bộ về máy.
 - **Quy tắc** tự xử lý thư đến (chuyển thư mục, chuyển tiếp tới địa chỉ khác, đánh dấu, phân loại, xoá).
@@ -148,6 +149,6 @@ test/            kiểm thử lõi + kịch bản chạy ứng dụng thật v�
 
 ```bash
 npm run typecheck
-npm test                 # 42 kiểm thử phần lõi trên máy chủ IMAP/SMTP giả lập
+npm test                 # 43 kiểm thử phần lõi trên máy chủ IMAP/SMTP giả lập
 npm run build && node test/e2e.cjs   # chạy app Electron thật (cần máy chủ demo đang chạy)
 ```

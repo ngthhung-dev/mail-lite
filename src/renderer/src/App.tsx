@@ -71,8 +71,11 @@ export interface Actions {
   openGuide(): void
   openShortcuts(): void
   openAbout(): void
+  backupData(): void
+  restoreData(): void
 }
 
+const fmtBytes = (n: number): string => (n >= 1 << 30 ? `${(n / (1 << 30)).toFixed(1)} GB` : n >= 1 << 20 ? `${(n / (1 << 20)).toFixed(1)} MB` : `${Math.max(1, Math.round(n / 1024))} KB`)
 const clamp = (v: number, lo: number, hi: number): number => Math.max(lo, Math.min(hi, v))
 
 /** Thanh kéo giữa hai ngăn. Nhấp đúp để về kích thước mặc định. */
@@ -143,6 +146,7 @@ export function App() {
   const [sel, setSel] = useState<Selection>({ virtual: 'all-inbox' })
   const [messages, setMessages] = useState<MessageSummary[]>([])
   const [limit, setLimit] = useState(PAGE)
+  const [backupBusy, setBackupBusy] = useState(false)
   const [filter, setFilter] = useState<NonNullable<ListQuery['filter']>>('all')
   const [sort, setSort] = useState<NonNullable<ListQuery['sort']>>('date-desc')
   const [search, setSearch] = useState('')
@@ -646,6 +650,20 @@ export function App() {
     openAbout() {
       setDialog({ type: 'about' })
     },
+    backupData() {
+      if (backupBusy) return
+      setBackupBusy(true)
+      toast('Đang sao lưu toàn bộ dữ liệu… (thư nhiều có thể mất vài phút)', 'info')
+      void api
+        .backupData()
+        .then((r) => r && toast(`Đã sao lưu ${r.files.toLocaleString('vi-VN')} tệp (${fmtBytes(r.bytes)}) vào ${r.file}`, 'ok'))
+        .catch((e: Error) => toast('Sao lưu thất bại: ' + e.message, 'error'))
+        .finally(() => setBackupBusy(false))
+    },
+    restoreData() {
+      if (backupBusy) return
+      void api.restoreData().catch((e: Error) => toast(e.message, 'error'))
+    },
     markAllRead() {
       const f = needFolder()
       if (!f) return
@@ -1098,6 +1116,9 @@ export function App() {
           onAddAccount={() => setDialog({ type: 'account' })}
           onChanged={() => void reloadMeta()}
           toast={toast}
+          onBackup={actions.backupData}
+          onRestore={actions.restoreData}
+          backupBusy={backupBusy}
         />
       )}
       {dialog?.type === 'merge' && (

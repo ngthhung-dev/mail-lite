@@ -7,6 +7,7 @@ import path from 'node:path'
 import { Engine } from './engine.ts'
 import { copyData, defaultDataDir, hasData, isInside, planTarget, resolveDataDir, writeConfig } from './datadir.ts'
 import { ENGINE_METHODS } from '../shared/api.ts'
+import { BACKUP_EXT, backupFileName, readBackupInfo, restoreBackup } from './backup.ts'
 import type { AppEvent, OutgoingAttachment } from '../shared/types.ts'
 import { APP_NAME, APP_TAGLINE } from '../shared/types.ts'
 
@@ -178,6 +179,61 @@ const shellApi: Record<string, (...a: any[]) => unknown> = {
     fs.writeFileSync(dest, fs.readFileSync(src))
     const err = await shell.openPath(dest)
     if (err) throw new Error('Không mở được tệp hướng dẫn: ' + err)
+  },
+  /** Sao lưu 1 lần bấm: chọn nơi lưu (mặc định thư mục Tài liệu) → ghi toàn bộ dữ liệu ra một tệp .mlbackup. */
+  async backupData(): Promise<{ file: string; files: number; bytes: number } | null> {
+    const r = await dialog.showSaveDialog(win!, {
+      title: 'Sao lưu toàn bộ dữ liệu Mail Lite',
+      defaultPath: path.join(app.getPath('documents'), backupFileName()),
+      filters: [{ name: 'Bản sao lưu Mail Lite', extensions: [BACKUP_EXT] }]
+    })
+    if (r.canceled || !r.filePath) return null
+    const file = r.filePath.toLowerCase().endsWith('.' + BACKUP_EXT) ? r.filePath : `${r.filePath}.${BACKUP_EXT}`
+    const m = await engine.backup(file, { version: app.getVersion(), build: __BUILD__, platform: process.platform })
+    return { file, files: m.files, bytes: fs.statSync(file).size }
+  },
+  /** Khôi phục từ tệp sao lưu: thay toàn bộ dữ liệu hiện tại rồi khởi động lại. Trả về false nếu người dùng huỷ. */
+  async restoreData(): Promise<boolean> {
+    const r = await dialog.showOpenDialog(win!, {
+      title: 'Chọn tệp sao lưu Mail Lite',
+      defaultPath: app.getPath('documents'),
+      properties: ['openFile'],
+      filters: [{ name: 'Bản sao lưu Mail Lite', extensions: [BACKUP_EXT] }]
+    })
+    if (r.canceled || !r.filePaths[0]) return false
+    const file = r.filePaths[0]
+    const m = await readBackupInfo(file)
+    const when = new Date(m.createdAt).toLocaleString('vi-VN')
+    const ask = await dialog.showMessageBox(win!, {
+      type: 'warning',
+      buttons: ['Khôi phục', 'Huỷ'],
+      defaultId: 1,
+      cancelId: 1,
+      title: 'Khôi phục dữ liệu',
+      message: 'Thay toàn bộ dữ liệu hiện tại bằng bản sao lưu này?',
+      detail:
+        `Bản sao lưu lúc: ${when}\nPhiên bản: ${m.version}${m.build ? ` (build ${m.build})` : ''}\n` +
+        `Tài khoản: ${m.accounts.length ? m.accounts.join(', ') : '(chưa có)'}\n\n` +
+        'Thư, tài khoản, cài đặt, quy tắc, lịch, danh bạ hiện có sẽ được thay bằng nội dung trong bản sao lưu; dữ liệu hiện tại được giữ lại một bản ' +
+        'cạnh thư mục dữ liệu (đuôi ".truoc-khoi-phuc") phòng khi cần lấy lại. Mail Lite sẽ khởi động lại.\n\n' +
+        'Nếu bản sao lưu được tạo trên máy khác, mật khẩu đã lưu không giải mã được — hãy nhập lại mật khẩu (Quản lý tài khoản → Sửa) sau khi khôi phục.'
+    })
+    if (ask.response !== 0) return false
+    quitting = true // engine dừng ở đây, không để before-quit dừng lần nữa
+    await engine.stop()
+    try {
+      await restoreBackup(file, dataDir)
+    } catch (e: any) {
+      await dialog.showMessageBox(win!, {
+        type: 'error',
+        title: 'Không khôi phục được',
+        message: 'Không khôi phục được dữ liệu',
+        detail: `${e?.message ?? e}\n\nDữ liệu hiện tại vẫn giữ nguyên. Mail Lite sẽ khởi động lại.`
+      })
+    }
+    app.relaunch()
+    app.exit(0)
+    return true
   },
   async openDataDir(): Promise<void> {
     await shell.openPath(dataDir)

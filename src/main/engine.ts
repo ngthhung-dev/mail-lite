@@ -35,6 +35,8 @@ import { authorize, refresh } from './oauth.ts'
 import type { OAuthTokens } from './oauth.ts'
 import { ruleMatches } from './rules.ts'
 import { readMergeFile } from './merge.ts'
+import { createBackup } from './backup.ts'
+import type { BackupManifest } from './backup.ts'
 import { isEmail, renderTemplate, rowRecord, splitAddresses, templateFields, fieldKey } from '../shared/merge.ts'
 
 export interface EngineOptions {
@@ -250,6 +252,11 @@ export class Engine {
     void this.syncAccount(acc.id).catch(() => undefined)
     this.opts.emit({ type: 'accounts-changed' })
     return acc
+  }
+
+  /** Sao lưu toàn bộ dữ liệu (thư, tài khoản, cài đặt, quy tắc, lịch, danh bạ…) ra một tệp. */
+  async backup(outFile: string, info: { version: string; build: string; platform: string }): Promise<BackupManifest> {
+    return createBackup(this.opts.dataDir, outFile, { ...info, accounts: this.store.listAccounts().map((a) => a.email) }, (f) => this.store.snapshot(f))
   }
 
   reorderFolders(ids: number[]): void {
