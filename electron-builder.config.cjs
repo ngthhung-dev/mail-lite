@@ -74,4 +74,20 @@ config.publish = null
 // khi có trang chủ thật thì sửa ở đây.
 config.extraMetadata = { homepage: 'https://maillite.invalid' }
 
+// Quy ước khi build trên GitHub (có BUILD_NUMBER): tên tệp kèm số build, giống trang Release
+//   Mail-Lite-1.0.0-build42-Setup.exe · Mail-Lite-1.0.0-build42-macOS-AppleSilicon.pkg
+//   Mail-Lite-1.0.0-build42-macOS-Intel.pkg · mail-lite_1.0.0-build42_amd64.deb
+if (process.env.BUILD_NUMBER) {
+  const tag = `${require('./package.json').version}-build${process.env.BUILD_NUMBER}`
+  config.buildVersion = process.env.BUILD_NUMBER
+  config.nsis.artifactName = `Mail-Lite-${tag}-Setup.\${ext}`
+  config.mac.artifactName = `Mail-Lite-${tag}-macOS-${process.env.MAC_LABEL || '${arch}'}.\${ext}`
+  config.deb = { artifactName: `mail-lite_${tag}_amd64.deb` }
+}
+
+// macOS: chưa có chứng chỉ Apple → ký ad-hoc để máy chip Apple chạy được (không báo "damaged")
+config.mac.identity = process.env.CSC_NAME || '-'
+// ký ad-hoc + hardened runtime sẽ chặn thư viện Electron đã ký sẵn → tắt khi không có chứng chỉ thật
+if (!process.env.CSC_NAME) config.mac.hardenedRuntime = false
+
 module.exports = config

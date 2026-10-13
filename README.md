@@ -27,10 +27,17 @@ Bản đóng gói chưa ký số, nên Windows SmartScreen / macOS Gatekeeper s�
 
 ### Build tự động trên GitHub
 
-Tệp `.github/workflows/build.yml` build cả ba bản cài (Windows `.exe`/`.zip`, macOS `.dmg`/`.zip` cho chip Intel và Apple, Linux `.deb`/`.AppImage`) trên máy chủ GitHub:
+Tab **Actions → Build bản cài → Run workflow** (`.github/workflows/build.yml`): build trên máy chủ GitHub rồi tự phát hành lên trang **Releases**, theo quy ước:
 
-- Tab **Actions → Build bản cài → Run workflow**: build xong tải ở mục **Artifacts** của lần chạy.
-- Đẩy tag dạng `v1.0.1` (`git tag v1.0.1 && git push origin v1.0.1`): build xong tự tạo Release kèm bản cài, nội dung lấy từ `.github/release-notes.md`.
+| | Mẫu |
+|---|---|
+| Tag | `v1.0.0-build4` |
+| Tiêu đề | `Mail Lite 1.0.0 (build 4)` |
+| Windows | `Mail-Lite-1.0.0-build4-Setup.exe` |
+| macOS chip Apple / Intel | `Mail-Lite-1.0.0-build4-macOS-AppleSilicon.pkg` / `…-macOS-Intel.pkg` |
+| Linux | `mail-lite_1.0.0-build4_amd64.deb` |
+
+Số build = số thứ tự lần chạy workflow (tự tăng); phiên bản lấy từ `package.json`. Nội dung trang Release ở `.github/release-notes.md`.
 
 ### Thử không cần tài khoản thật
 

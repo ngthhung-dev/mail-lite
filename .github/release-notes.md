@@ -1,19 +1,10 @@
-## Mail Lite 1.0.0
+Bộ cài tạo tự động (đóng Mail Lite trước khi cài):
 
-Ứng dụng đọc và gửi thư trên máy tính, giao diện kiểu Outlook classic — *Mail Lite by ngthhung*.
+- Windows 64-bit: tệp `…-Setup.exe`
+- macOS máy chip Apple (M1 trở lên): tệp `…-macOS-AppleSilicon.pkg`
+- macOS máy chip Intel: tệp `…-macOS-Intel.pkg`
+- Linux Mint / Ubuntu / Debian 64-bit: tệp `.deb` — cài bằng `sudo apt install ./tên-tệp.deb`
 
-### Chọn tệp tải về
-
-| Máy | Tệp |
-|---|---|
-| Windows 10/11 | `Mail-Lite-Setup-1.0.0.exe` (bản cài) — hoặc tệp `…-win.zip` chạy không cần cài |
-| macOS chip Apple (M1 trở lên) | `Mail-Lite-1.0.0-mac-arm64.dmg` |
-| macOS chip Intel | `Mail-Lite-1.0.0-mac-x64.dmg` |
-| Linux Mint / Ubuntu | `Mail-Lite-1.0.0-amd64.deb` — hoặc `.AppImage` |
-| Hướng dẫn sử dụng | `Mail-Lite-Huong-dan-su-dung.pdf` |
-
-### Lưu ý khi cài
-- **Windows:** nếu hiện "Windows protected your PC", bấm **More info → Run anyway** (ứng dụng chưa ký số).
-- **macOS:** kéo Mail Lite vào Applications, rồi mở Terminal chạy `xattr -cr "/Applications/Mail Lite.app"`. Máy chip Apple nếu báo "damaged" thì chạy thêm `codesign --force --deep --sign - "/Applications/Mail Lite.app"`.
-- **Linux:** `sudo apt install ./Mail-Lite-1.0.0-amd64.deb`
-- Cài đè lên bản cũ không mất thư và tài khoản.
+Windows: bộ cài chưa ký số, nếu hiện "Windows protected your PC" bấm **More info → Run anyway**.
+macOS: bộ cài chưa có chữ ký Apple, lần đầu bấm chuột phải vào tệp `.pkg` → **Open** (hoặc System Settings → Privacy & Security → **Open Anyway**).
+Cài đè lên bản cũ không mất thư và tài khoản. Hướng dẫn sử dụng chi tiết: tệp `docs/Mail-Lite-Huong-dan-su-dung.pdf` trong mã nguồn.
