@@ -44,7 +44,8 @@ const config = {
     "category": "Office",
     "icon": "resources/icon-512.png",
     "executableName": "mail-lite",
-    "maintainer": "ngthhung <ngthhung@localhost>",
+    "maintainer": "ngthhung <ngthhung.dev@gmail.com>",
+    "vendor": "ngthhung <ngthhung.dev@gmail.com>",
     "synopsis": "Mail Lite by ngthhung",
     "artifactName": "Mail-Lite-${version}-${arch}.${ext}"
   },
@@ -71,16 +72,16 @@ config.win.signAndEditExecutable = process.platform === 'win32' || process.env.M
 // Không phát hành/tự cập nhật qua máy chủ nào → không tạo tệp mô tả bản cập nhật
 config.publish = null
 
-// Gói .deb bắt buộc có trang chủ. Chưa có trang thật nên dùng tên miền dành riêng ".invalid" (không bao giờ trỏ đi đâu);
-// khi có trang chủ thật thì sửa ở đây.
-config.extraMetadata = { homepage: 'https://maillite.invalid' }
+// Thông tin tác giả gắn vào bộ cài và tệp chạy (Windows: Details → Copyright / Company; macOS: Info.plist; Linux: .deb)
+config.copyright = `Copyright © ${new Date().getFullYear()} ngthhung`
+// tệp chạy Mail Lite.exe cũng ghi "Mail Lite by ngthhung" ở mục File description
+config.afterSign = 'build/after-sign.cjs'
 
 // Quy ước khi build trên GitHub (có BUILD_NUMBER): tên tệp kèm số build, giống trang Release
 //   Mail-Lite-1.0.0-build42-Setup.exe · Mail-Lite-1.0.0-build42-macOS-AppleSilicon.pkg
 //   Mail-Lite-1.0.0-build42-macOS-Intel.pkg · mail-lite_1.0.0-build42_amd64.deb
 if (process.env.BUILD_NUMBER) {
   const tag = `${require('./package.json').version}-build${process.env.BUILD_NUMBER}`
-  config.buildVersion = process.env.BUILD_NUMBER
   config.nsis.artifactName = `Mail-Lite-${tag}-Setup.\${ext}`
   config.mac.artifactName = `Mail-Lite-${tag}-macOS-${process.env.MAC_LABEL || '${arch}'}.\${ext}`
   config.deb = { artifactName: `mail-lite_${tag}_amd64.deb` }

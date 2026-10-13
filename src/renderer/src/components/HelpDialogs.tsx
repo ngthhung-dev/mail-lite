@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react'
 import { BookOpen, ExternalLink } from 'lucide-react'
 import { api } from '../api.ts'
-import { APP_NAME, APP_TAGLINE } from '../../../shared/types.ts'
+import { APP_NAME, APP_TAGLINE, AUTHOR } from '../../../shared/types.ts'
 import { Modal } from './ui.tsx'
 import icon from '../../../../resources/icon.png'
 
@@ -118,10 +118,19 @@ export function AboutDialog(props: { onClose: () => void; onGuide: () => void })
           Ứng dụng đọc và gửi thư trên máy tính: nhiều tài khoản (Gmail, Microsoft 365, mail công ty), đồng bộ thư về máy để đọc cả khi mất mạng,
           trộn thư từ Excel, quy tắc, lịch và danh bạ.
         </p>
+        <div className="about-copy">Copyright © {new Date().getFullYear()} {AUTHOR.name}</div>
         {info && (
           <dl>
             <dt>Tác giả</dt>
-            <dd>ngthhung</dd>
+            <dd>{AUTHOR.name}</dd>
+            <dt>Email</dt>
+            <dd>
+              <a href="#" onClick={(e) => (e.preventDefault(), void api.openExternal(`mailto:${AUTHOR.email}`))}>
+                {AUTHOR.email}
+              </a>
+            </dd>
+            <dt>Điện thoại</dt>
+            <dd>{AUTHOR.phone}</dd>
             <dt>Nền tảng</dt>
             <dd>
               Electron {info.electron} · Chromium {info.chrome} · Node {info.node}

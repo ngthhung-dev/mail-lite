@@ -6,7 +6,7 @@
 #            Mail-Lite-1.0.0-build4-macOS-AppleSilicon.pkg
 #            Mail-Lite-1.0.0-build4-macOS-Intel.pkg
 #            mail-lite_1.0.0-build4_amd64.deb
-# Số build = số thứ tự lần chạy workflow (tự tăng). Phiên bản lấy từ package.json.
+# Số build tự tăng mỗi lần chạy (= số lần chạy − BUILD_BASE). Phiên bản lấy từ package.json.
 # Cách chạy: tab Actions → Build bản cài → Run workflow.
 name: Build bản cài
 
@@ -17,7 +17,8 @@ permissions:
   contents: write
 
 env:
-  BUILD_NUMBER: ${{ github.run_number }}
+  # Số build = số thứ tự lần chạy trừ đi BUILD_BASE (đặt lại về build 1 từ lần chạy thứ 10)
+  BUILD_BASE: 9
 
 jobs:
   build:
@@ -48,6 +49,10 @@ jobs:
       CSC_IDENTITY_AUTO_DISCOVERY: 'false'
     steps:
       - uses: actions/checkout@v4
+
+      - name: Tính số build
+        shell: bash
+        run: echo "BUILD_NUMBER=$(( ${{ github.run_number }} - BUILD_BASE ))" >> "$GITHUB_ENV"
 
       - uses: actions/setup-node@v4
         with:
@@ -83,9 +88,11 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
-      - name: Đọc phiên bản
+      - name: Đọc phiên bản + số build
         id: v
-        run: echo "version=$(node -p "require('./package.json').version")" >> "$GITHUB_OUTPUT"
+        run: |
+          echo "version=$(node -p "require('./package.json').version")" >> "$GITHUB_OUTPUT"
+          echo "build=$(( ${{ github.run_number }} - BUILD_BASE ))" >> "$GITHUB_OUTPUT"
 
       - uses: actions/download-artifact@v4
         with:
@@ -95,9 +102,9 @@ jobs:
       - name: Phát hành
         uses: softprops/action-gh-release@v2
         with:
-          tag_name: v${{ steps.v.outputs.version }}-build${{ github.run_number }}
+          tag_name: v${{ steps.v.outputs.version }}-build${{ steps.v.outputs.build }}
           target_commitish: ${{ github.sha }}
-          name: Mail Lite ${{ steps.v.outputs.version }} (build ${{ github.run_number }})
+          name: Mail Lite ${{ steps.v.outputs.version }} (build ${{ steps.v.outputs.build }})
           body_path: .github/release-notes.md
           make_latest: true
           files: dist/*

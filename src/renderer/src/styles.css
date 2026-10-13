@@ -2407,3 +2407,12 @@ code {
   margin: 0 3px;
   color: var(--muted);
 }
+
+.about-copy {
+  margin: -4px 0 10px;
+  font-size: 12px;
+  color: var(--muted);
+}
+.about dd a {
+  color: var(--accent);
+}

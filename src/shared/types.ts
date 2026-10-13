@@ -406,4 +406,6 @@ export interface MergeProgress {
 
 /** Tên và dòng mô tả hiển thị của ứng dụng. */
 export const APP_NAME = 'Mail Lite'
+/** thông tin liên hệ tác giả (hiện ở Trợ giúp → Giới thiệu) */
+export const AUTHOR = { name: 'ngthhung', email: 'ngthhung.dev@gmail.com', phone: '0968 799 365' }
 export const APP_TAGLINE = 'Mail Lite by ngthhung'

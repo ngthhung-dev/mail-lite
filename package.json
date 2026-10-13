@@ -3,7 +3,11 @@
   "version": "1.0.0",
   "description": "Mail Lite by ngthhung",
   "main": "out/main/index.js",
-  "author": "ngthhung",
+  "author": {
+    "name": "ngthhung",
+    "email": "ngthhung.dev@gmail.com"
+  },
+  "homepage": "https://github.com/ngthhung-dev/mail-lite",
   "license": "MIT",
   "scripts": {
     "dev": "electron-vite dev",

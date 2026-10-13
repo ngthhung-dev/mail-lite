@@ -31,13 +31,13 @@ Tab **Actions → Build bản cài → Run workflow** (`.github/workflows/build.
 
 | | Mẫu |
 |---|---|
-| Tag | `v1.0.0-build4` |
-| Tiêu đề | `Mail Lite 1.0.0 (build 4)` |
-| Windows | `Mail-Lite-1.0.0-build4-Setup.exe` |
-| macOS chip Apple / Intel | `Mail-Lite-1.0.0-build4-macOS-AppleSilicon.pkg` / `…-macOS-Intel.pkg` |
-| Linux | `mail-lite_1.0.0-build4_amd64.deb` |
+| Tag | `v1.0.0-build1` |
+| Tiêu đề | `Mail Lite 1.0.0 (build 1)` |
+| Windows | `Mail-Lite-1.0.0-build1-Setup.exe` |
+| macOS chip Apple / Intel | `Mail-Lite-1.0.0-build1-macOS-AppleSilicon.pkg` / `…-macOS-Intel.pkg` |
+| Linux | `mail-lite_1.0.0-build1_amd64.deb` |
 
-Số build = số thứ tự lần chạy workflow (tự tăng); phiên bản lấy từ `package.json`. Nội dung trang Release ở `.github/release-notes.md`.
+Số build tự tăng mỗi lần chạy (= số lần chạy − `BUILD_BASE` trong workflow); phiên bản lấy từ `package.json`. Nội dung trang Release ở `.github/release-notes.md`.
 
 ### Thử không cần tài khoản thật
 
