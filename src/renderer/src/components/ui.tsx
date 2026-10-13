@@ -56,7 +56,7 @@ export interface MenuItem {
   swatch?: string
 }
 
-export function ContextMenu(props: { x: number; y: number; items: MenuItem[]; onClose: () => void }) {
+export function ContextMenu(props: { x: number; y: number; items: MenuItem[]; onClose: () => void; onMouseEnter?: () => void; onMouseLeave?: () => void }) {
   const ref = useRef<HTMLDivElement>(null)
   const [pos, setPos] = useState({ x: props.x, y: props.y })
   useLayoutEffect(() => {
@@ -85,7 +85,15 @@ export function ContextMenu(props: { x: number; y: number; items: MenuItem[]; on
     }
   })
   return (
-    <div ref={ref} className="menu" style={{ left: pos.x, top: pos.y }} onMouseDown={(e) => e.stopPropagation()} role="menu">
+    <div
+      ref={ref}
+      className="menu"
+      style={{ left: pos.x, top: pos.y }}
+      onMouseDown={(e) => e.stopPropagation()}
+      onMouseEnter={props.onMouseEnter}
+      onMouseLeave={props.onMouseLeave}
+      role="menu"
+    >
       {props.items.map((it, i) =>
         it.separator ? (
           <div key={i} className="menu-sep" />

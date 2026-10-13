@@ -18,9 +18,25 @@ function Big(props: { icon: ReactNode; label: string; onClick: () => void; disab
     </button>
   )
 }
-function Small(props: { icon: ReactNode; label: string; onClick: (e: React.MouseEvent) => void; disabled?: boolean; title?: string; on?: boolean }) {
+function Small(props: {
+  icon: ReactNode
+  label: string
+  onClick: (e: React.MouseEvent) => void
+  disabled?: boolean
+  title?: string
+  on?: boolean
+  onMouseEnter?: (e: React.MouseEvent) => void
+  onMouseLeave?: () => void
+}) {
   return (
-    <button className={`rb small ${props.on ? 'on' : ''}`} onClick={props.onClick} disabled={props.disabled} title={props.title ?? props.label}>
+    <button
+      className={`rb small ${props.on ? 'on' : ''}`}
+      onClick={props.onClick}
+      disabled={props.disabled}
+      title={props.title ?? props.label}
+      onMouseEnter={props.onMouseEnter}
+      onMouseLeave={props.onMouseLeave}
+    >
       {props.icon}
       <span>{props.label}</span>
     </button>
@@ -75,6 +91,40 @@ export function Ribbon(props: {
     const r = (e.currentTarget as HTMLElement).getBoundingClientRect()
     setMenu({ x: r.left, y: r.bottom + 2, items })
   }
+  // Nút có ▾: rê chuột lên là xổ danh sách; rời khỏi cả nút lẫn danh sách thì tự đóng
+  const ddOpen = useRef<ReturnType<typeof setTimeout> | null>(null)
+  const ddClose = useRef<ReturnType<typeof setTimeout> | null>(null)
+  const stopClose = (): void => {
+    if (ddClose.current) clearTimeout(ddClose.current)
+    ddClose.current = null
+  }
+  const hoverDropdown = (items: () => MenuItem[]) => ({
+    onMouseEnter: (e: React.MouseEvent): void => {
+      stopClose()
+      const el = e.currentTarget as HTMLElement
+      if (ddOpen.current) clearTimeout(ddOpen.current)
+      ddOpen.current = setTimeout(() => {
+        const r = el.getBoundingClientRect()
+        setMenu({ x: r.left, y: r.bottom + 2, items: items() })
+      }, 150)
+    },
+    onMouseLeave: (): void => {
+      if (ddOpen.current) clearTimeout(ddOpen.current)
+      ddOpen.current = null
+      scheduleClose()
+    }
+  })
+  const scheduleClose = (): void => {
+    stopClose()
+    ddClose.current = setTimeout(() => setMenu(null), 300)
+  }
+  const categoryItems = (): MenuItem[] => [
+    ...settings.categories.map((c) => ({ label: c.name, swatch: c.color, onClick: () => a.setCategory(c.name) })),
+    { separator: true },
+    { label: 'Xoá phân loại', onClick: () => a.setCategory(null) },
+    { label: 'Sửa danh sách phân loại…', onClick: () => a.openSettings('categories') }
+  ]
+  const sortItems = (): MenuItem[] => SORTS.map((s) => ({ label: s.label, onClick: () => props.onSort(s.v) }))
 
   return (
     <header className="ribbon">
@@ -148,14 +198,8 @@ export function Ribbon(props: {
                   icon={<Tag size={16} />}
                   label="Phân loại ▾"
                   disabled={none || !mail}
-                  onClick={(e) =>
-                    dropdown(e, [
-                      ...settings.categories.map((c) => ({ label: c.name, swatch: c.color, onClick: () => a.setCategory(c.name) })),
-                      { separator: true },
-                      { label: 'Xoá phân loại', onClick: () => a.setCategory(null) },
-                      { label: 'Sửa danh sách phân loại…', onClick: () => a.openSettings('categories') }
-                    ])
-                  }
+                  onClick={(e) => dropdown(e, categoryItems())}
+                  {...hoverDropdown(categoryItems)}
                 />
               </div>
             </Group>
@@ -227,7 +271,8 @@ export function Ribbon(props: {
                 <Small
                   icon={<ArrowDownUp size={16} />}
                   label={`${SORTS.find((s) => s.v === props.sort)?.label} ▾`}
-                  onClick={(e) => dropdown(e, SORTS.map((s) => ({ label: s.label, onClick: () => props.onSort(s.v) })))}
+                  onClick={(e) => dropdown(e, sortItems())}
+                  {...hoverDropdown(sortItems)}
                 />
               </div>
             </Group>
@@ -271,7 +316,7 @@ export function Ribbon(props: {
           </>
         )}
       </div>
-      {menu && <ContextMenu {...menu} onClose={() => setMenu(null)} />}
+      {menu && <ContextMenu {...menu} onClose={() => setMenu(null)} onMouseEnter={stopClose} onMouseLeave={scheduleClose} />}
     </header>
   )
 }
