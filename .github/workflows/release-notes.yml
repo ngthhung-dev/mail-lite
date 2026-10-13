@@ -1,0 +1,22 @@
+# Cập nhật lại nội dung trang Release mới nhất theo .github/release-notes.md (không build lại).
+# Chạy tay: tab Actions → Cập nhật ghi chú Release → Run workflow.
+name: Cập nhật ghi chú Release
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  notes:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Ghi lại nội dung Release mới nhất
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          tag=$(gh api "repos/${{ github.repository }}/releases/latest" --jq .tag_name)
+          echo "Cập nhật: $tag"
+          gh release edit "$tag" --repo "${{ github.repository }}" --notes-file .github/release-notes.md
