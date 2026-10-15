@@ -54,7 +54,11 @@ const config = {
     "allowToChangeInstallationDirectory": true,
     "createDesktopShortcut": true,
     "shortcutName": "Mail Lite",
-    "artifactName": "Mail-Lite-Setup-${version}.${ext}"
+    "artifactName": "Mail-Lite-Setup-${version}.${ext}",
+    "installerLanguages": [
+      "vi_VN"
+    ],
+    "language": "1066"
   },
   "compression": "maximum",
   "electronLanguages": [
@@ -68,6 +72,9 @@ const config = {
 // Khi đóng gói bản Windows từ Linux không có wine thì bỏ qua bước đó; ứng dụng vẫn tự đặt tên và biểu tượng
 // cho cửa sổ, thanh tác vụ và thông báo lúc chạy (xem src/main/index.ts).
 config.win.signAndEditExecutable = process.platform === 'win32' || process.env.MAILLITE_EDIT_EXE === '1'
+
+// Bộ cài Windows hiển thị tiếng Việt (bổ sung bản dịch còn thiếu của electron-builder)
+require('./build/nsis-vi.cjs').patchNsisVietnamese()
 
 // Không phát hành/tự cập nhật qua máy chủ nào → không tạo tệp mô tả bản cập nhật
 config.publish = null

@@ -1,11 +1,17 @@
 # Dọn Release cũ: xoá vĩnh viễn mọi Release (kèm tag) trừ Release mới nhất,
 # xoá mọi bản build trong mục Artifacts, và xoá lịch sử các lần chạy ở tab Actions
 # (trừ chính lần dọn này — đang chạy thì không tự xoá được).
+# Tuỳ chọn "xoa_tat_ca" = xoá luôn cả Release mới nhất (khi reset phiên bản).
 # Chạy tay: tab Actions → Dọn Release cũ → Run workflow.
 name: Dọn Release cũ
 
 on:
   workflow_dispatch:
+    inputs:
+      xoa_tat_ca:
+        description: 'Xoá cả Release mới nhất (dùng khi reset phiên bản)'
+        type: boolean
+        default: false
 
 permissions:
   contents: write
@@ -19,9 +25,15 @@ jobs:
         env:
           GH_TOKEN: ${{ github.token }}
           REPO: ${{ github.repository }}
+          ALL: ${{ inputs.xoa_tat_ca }}
         run: |
-          latest=$(gh api "repos/$REPO/releases/latest" --jq .tag_name)
-          echo "Giữ lại: $latest"
+          latest=""
+          if [ "$ALL" != "true" ]; then
+            latest=$(gh api "repos/$REPO/releases/latest" --jq .tag_name 2>/dev/null || true)
+            echo "Giữ lại: $latest"
+          else
+            echo "Xoá TẤT CẢ Release"
+          fi
           gh api "repos/$REPO/releases" --paginate --jq '.[].tag_name' | while read -r tag; do
             [ "$tag" = "$latest" ] && continue
             echo "Xoá Release + tag: $tag"

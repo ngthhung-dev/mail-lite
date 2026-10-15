@@ -14,6 +14,8 @@ Người dùng: ngthhung — trả lời bằng tiếng Việt, ngắn gọn, đ
 - Tệp: `Mail-Lite-<pb>-build<n>-Setup.exe`, `…-macOS-AppleSilicon.pkg`, `…-macOS-Intel.pkg`, `mail-lite_<pb>-build<n>_amd64.deb`.
 - Mỗi lần build tạo một Release mới (Latest). "Dọn Release cũ" chỉ chạy khi người dùng yêu cầu: xoá Release/tag cũ, Artifacts, lịch sử chạy; giữ Release mới nhất.
 - Sửa nội dung trang Release không cần build lại: sửa `.github/release-notes.md` rồi chạy workflow "Cập nhật ghi chú Release".
+- Reset phiên bản: chạy "Dọn Release cũ" với `xoa_tat_ca=true`, rồi đặt `BUILD_BASE` = run_number kế tiếp − 1.
+- Bộ cài Windows giao diện tiếng Việt (`nsis.installerLanguages: vi_VN`, bản dịch bổ sung ở `build/nsis-vi.cjs`).
 - Commit bằng tác giả Claude <noreply@anthropic.com>.
 
 ## Kiểm thử trước khi build

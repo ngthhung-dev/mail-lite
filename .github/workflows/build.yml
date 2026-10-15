@@ -17,8 +17,8 @@ permissions:
   contents: write
 
 env:
-  # Số build = số thứ tự lần chạy trừ đi BUILD_BASE (đặt lại về build 1 từ lần chạy thứ 10)
-  BUILD_BASE: 9
+  # Số build = số thứ tự lần chạy trừ đi BUILD_BASE (đặt lại về build 1 từ lần chạy thứ 11)
+  BUILD_BASE: 10
 
 jobs:
   build:
