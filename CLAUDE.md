@@ -9,12 +9,12 @@ Người dùng: ngthhung — trả lời bằng tiếng Việt, ngắn gọn, đ
 - **KHÔNG ghi email / số điện thoại trên trang Release GitHub** (`.github/release-notes.md`).
 
 ## Build & phát hành (GitHub Actions, repo ngthhung-dev/mail-lite)
-- Phiên bản lấy từ `package.json` (hiện 1.0.0). Số build tự tăng mỗi lần chạy workflow "Build bản cài" (= run_number − `BUILD_BASE`).
-- Tag `v<phiên bản>-build<số>`, tiêu đề `Mail Lite <phiên bản> (build <số>)`.
-- Tệp: `Mail-Lite-<pb>-build<n>-Setup.exe`, `…-macOS-AppleSilicon.pkg`, `…-macOS-Intel.pkg`, `mail-lite_<pb>-build<n>_amd64.deb`.
+- Phiên bản tự tăng mỗi lần chạy workflow "Build bản cài", tính từ tag gần nhất: 1.0.1 → … → 1.0.99 → 1.1.0 → … → 1.99.99 → 2.0.0 (không còn số build). Có thể tự nhập phiên bản khi chạy. Workflow truyền phiên bản qua `APP_VERSION` để gắn vào ứng dụng và tên tệp; `package.json` giữ 1.0.0 cho lúc chạy thử trên máy.
+- Tag `v<phiên bản>`, tiêu đề `Mail Lite <phiên bản>`.
+- Tệp: `Mail-Lite-<pb>-Setup.exe`, `…-macOS-AppleSilicon.pkg`, `…-macOS-Intel.pkg`, `mail-lite_<pb>_amd64.deb`.
 - Mỗi lần build tạo một Release mới (Latest). "Dọn Release cũ" chỉ chạy khi người dùng yêu cầu: xoá Release/tag cũ, Artifacts, lịch sử chạy; giữ Release mới nhất.
 - Sửa nội dung trang Release không cần build lại: sửa `.github/release-notes.md` rồi chạy workflow "Cập nhật ghi chú Release".
-- Reset phiên bản: chạy "Dọn Release cũ" với `xoa_tat_ca=true`, rồi đặt `BUILD_BASE` = run_number kế tiếp − 1.
+- Reset phiên bản: chạy "Dọn Release cũ" với `xoa_tat_ca=true` (hết tag thì bản kế tiếp là 1.0.1), hoặc nhập phiên bản khi chạy build.
 - Bộ cài Windows giao diện tiếng Việt (`nsis.installerLanguages: vi_VN`, bản dịch bổ sung ở `build/nsis-vi.cjs`).
 - Commit bằng tác giả Claude <noreply@anthropic.com>.
 

@@ -84,14 +84,16 @@ config.copyright = `Copyright © ${new Date().getFullYear()} ngthhung`
 // tệp chạy Mail Lite.exe cũng ghi "Mail Lite by ngthhung" ở mục File description
 config.afterSign = 'build/after-sign.cjs'
 
-// Quy ước khi build trên GitHub (có BUILD_NUMBER): tên tệp kèm số build, giống trang Release
-//   Mail-Lite-1.0.0-build42-Setup.exe · Mail-Lite-1.0.0-build42-macOS-AppleSilicon.pkg
-//   Mail-Lite-1.0.0-build42-macOS-Intel.pkg · mail-lite_1.0.0-build42_amd64.deb
-if (process.env.BUILD_NUMBER) {
-  const tag = `${require('./package.json').version}-build${process.env.BUILD_NUMBER}`
-  config.nsis.artifactName = `Mail-Lite-${tag}-Setup.\${ext}`
-  config.mac.artifactName = `Mail-Lite-${tag}-macOS-${process.env.MAC_LABEL || '${arch}'}.\${ext}`
-  config.deb = { artifactName: `mail-lite_${tag}_amd64.deb` }
+// Khi build trên GitHub, workflow tính phiên bản kế tiếp (1.0.1, 1.0.2…) và truyền qua APP_VERSION:
+// gắn vào ứng dụng (thay cho package.json) và tên tệp
+//   Mail-Lite-1.0.1-Setup.exe · Mail-Lite-1.0.1-macOS-AppleSilicon.pkg
+//   Mail-Lite-1.0.1-macOS-Intel.pkg · mail-lite_1.0.1_amd64.deb
+if (process.env.APP_VERSION) {
+  const v = process.env.APP_VERSION
+  config.extraMetadata = { ...(config.extraMetadata || {}), version: v }
+  config.nsis.artifactName = `Mail-Lite-${v}-Setup.\${ext}`
+  config.mac.artifactName = `Mail-Lite-${v}-macOS-${process.env.MAC_LABEL || '${arch}'}.\${ext}`
+  config.deb = { artifactName: `mail-lite_${v}_amd64.deb` }
 }
 
 // macOS: chưa có chứng chỉ Apple → ký ad-hoc để máy chip Apple chạy được (không báo "damaged")

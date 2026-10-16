@@ -1,27 +1,56 @@
 # Build bản cài Mail Lite cho Windows, macOS, Linux và phát hành lên trang Releases.
-# Quy ước (giống các app khác của ngthhung):
-#   tag      v<phiên bản>-build<số build>        vd. v1.0.0-build4
-#   tiêu đề  Mail Lite <phiên bản> (build <số>)
-#   tệp      Mail-Lite-1.0.0-build4-Setup.exe
-#            Mail-Lite-1.0.0-build4-macOS-AppleSilicon.pkg
-#            Mail-Lite-1.0.0-build4-macOS-Intel.pkg
-#            mail-lite_1.0.0-build4_amd64.deb
-# Số build tự tăng mỗi lần chạy (= số lần chạy − BUILD_BASE). Phiên bản lấy từ package.json.
-# Cách chạy: tab Actions → Build bản cài → Run workflow.
+# Quy ước phiên bản (giống các app khác của ngthhung): mỗi lần chạy tự tăng từ bản phát hành gần nhất
+#   1.0.1 → 1.0.2 → … → 1.0.99 → 1.1.0 → … → 1.99.99 → 2.0.0
+#   tag      v<phiên bản>                 vd. v1.0.1
+#   tiêu đề  Mail Lite <phiên bản>
+#   tệp      Mail-Lite-1.0.1-Setup.exe
+#            Mail-Lite-1.0.1-macOS-AppleSilicon.pkg
+#            Mail-Lite-1.0.1-macOS-Intel.pkg
+#            mail-lite_1.0.1_amd64.deb
+# Cách chạy: tab Actions → Build bản cài → Run workflow (có thể tự nhập phiên bản).
 name: Build bản cài
 
 on:
   workflow_dispatch:
+    inputs:
+      version:
+        description: 'Tự nhập phiên bản (vd 1.2.3). Để trống = tự tăng từ bản phát hành gần nhất'
+        required: false
+        default: ''
 
 permissions:
   contents: write
 
-env:
-  # Số build = số thứ tự lần chạy trừ đi BUILD_BASE (đặt lại về build 1 từ lần chạy thứ 11)
-  BUILD_BASE: 10
-
 jobs:
+  # Tính phiên bản một lần cho cả bốn bản build
+  setup:
+    runs-on: ubuntu-latest
+    outputs:
+      version: ${{ steps.v.outputs.version }}
+    steps:
+      - uses: actions/checkout@v4
+      - name: Phiên bản kế tiếp
+        id: v
+        shell: bash
+        run: |
+          if [ -n "${{ github.event.inputs.version }}" ]; then
+            V="${{ github.event.inputs.version }}"; V="${V#v}"
+          else
+            # bản gần nhất (bỏ đuôi -buildN của các tag cũ); chưa có thì coi như 1.0.0
+            LAST=$(git ls-remote --tags --refs origin 'v*' | sed 's#.*refs/tags/v##; s#-build.*##' | grep -E '^[0-9]+\.[0-9]+\.[0-9]+$' | sort -V | tail -1)
+            LAST=${LAST:-1.0.0}
+            IFS=. read -r MA MI PA <<< "$LAST"
+            PA=$((PA + 1))
+            if [ "$PA" -gt 99 ]; then PA=0; MI=$((MI + 1)); fi
+            if [ "$MI" -gt 99 ]; then MI=0; MA=$((MA + 1)); fi
+            V="$MA.$MI.$PA"
+            echo "Bản gần nhất: $LAST"
+          fi
+          echo "Phiên bản: $V"
+          echo "version=$V" >> "$GITHUB_OUTPUT"
+
   build:
+    needs: setup
     strategy:
       fail-fast: false
       matrix:
@@ -45,14 +74,11 @@ jobs:
     runs-on: ${{ matrix.os }}
     env:
       MAC_LABEL: ${{ matrix.mac_label }}
+      APP_VERSION: ${{ needs.setup.outputs.version }}
       # chưa có chứng chỉ ký số Apple/Windows
       CSC_IDENTITY_AUTO_DISCOVERY: 'false'
     steps:
       - uses: actions/checkout@v4
-
-      - name: Tính số build
-        shell: bash
-        run: echo "BUILD_NUMBER=$(( ${{ github.run_number }} - BUILD_BASE ))" >> "$GITHUB_ENV"
 
       - uses: actions/setup-node@v4
         with:
@@ -83,16 +109,10 @@ jobs:
 
   # Tạo một Release duy nhất sau khi cả bốn bản build xong
   release:
-    needs: build
+    needs: [setup, build]
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-
-      - name: Đọc phiên bản + số build
-        id: v
-        run: |
-          echo "version=$(node -p "require('./package.json').version")" >> "$GITHUB_OUTPUT"
-          echo "build=$(( ${{ github.run_number }} - BUILD_BASE ))" >> "$GITHUB_OUTPUT"
 
       - uses: actions/download-artifact@v4
         with:
@@ -102,9 +122,9 @@ jobs:
       - name: Phát hành
         uses: softprops/action-gh-release@v2
         with:
-          tag_name: v${{ steps.v.outputs.version }}-build${{ steps.v.outputs.build }}
+          tag_name: v${{ needs.setup.outputs.version }}
           target_commitish: ${{ github.sha }}
-          name: Mail Lite ${{ steps.v.outputs.version }} (build ${{ steps.v.outputs.build }})
+          name: Mail Lite ${{ needs.setup.outputs.version }}
           body_path: .github/release-notes.md
           make_latest: true
           files: dist/*
